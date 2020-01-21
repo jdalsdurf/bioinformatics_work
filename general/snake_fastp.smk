@@ -10,12 +10,12 @@ for entry in os.scandir("raw_reads/"):
 #### this tells where data is that will be used for dictionary
 config_dict = {"samples":{i.split(".")[0]:"raw_reads/"+i for i in file_list}}
 
-with open("config.yaml","w") as handle:
+with open("config_fastp.yaml","w") as handle:
     yaml.dump(config_dict,handle)
 
 ##### rule all is a general rule that says this is the results we are lookin for in the end.
 ##### Need to think back to front
-configfile: "config.yaml"
+configfile: "config_fastp.yaml"
 
 print("Starting trimming with FASTP workflow")
 
