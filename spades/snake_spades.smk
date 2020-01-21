@@ -21,7 +21,7 @@ print("Starting SPADES analysis workflow")
 
 rule all:
     input:
-        expand("spades/results/{sample}_contigs.fasta", id = IDS), sample = config["samples"])
+        expand("spades/results/{sample}_contigs.fasta", sample = config["samples"])
 
 rule spades:
     input:
