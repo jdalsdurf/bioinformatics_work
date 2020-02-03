@@ -48,6 +48,6 @@ rule spades:
     input:
         lambda wildcards: config["samples"][wildcards.sample]
     output:
-        directory("spadesOut/{sample}_spadesOut")
+        directory("spadesOut/{sample}_spadesOut/contigs.fasta")
     shell:
         "spades.py --sc --iontorrent --careful -k 21,33,55,77,99,127 -s {input} -o {output}"
