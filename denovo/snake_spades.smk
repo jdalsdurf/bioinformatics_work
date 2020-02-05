@@ -27,27 +27,47 @@ rule all:
 
 rule gather:
 	input:
+<<<<<<< HEAD
 		gather="spadesOut/{sample}_spadesOut/{sample}_contigs.fasta"
 	output:
 		gather="spadesOut/results/{sample}_contigs.fasta"
 	shell:
 		"cp {input.gather} {output.gather}"
+=======
+	   "spadesOut/{sample}_spades/{sample}_contigs.fasta"
+	output:
+		gather="spadesOut/results/{sample}_contigs.fasta"
+	shell:
+		"cp {input} {output.gather}"
+>>>>>>> c79b2f2a8cfb5528f10804b8f3e131dd50127a2f
 
 #### renaming the spades output
 
 rule rename:
 	input:
+<<<<<<< HEAD
 		rename="spadesOut/{sample}_spadesOut/contigs.fasta"
 	output:
 		rename="spadesOut/{sample}_spades/{sample}_contigs.fasta"
 	shell:
 		"mv {input.rename} {output.rename}"
+=======
+		"spadesOut/{sample}_spades/contigs.fasta"
+	output:
+		rename="spadesOut/{sample}_spades/{sample}_contigs.fasta"
+	shell:
+		"mv {input} {output.rename}"
+>>>>>>> c79b2f2a8cfb5528f10804b8f3e131dd50127a2f
 
 #### running spades
 rule spades:
     input:
         lambda wildcards: config["samples"][wildcards.sample]
     output:
-        directory("spadesOut/{sample}_spadesOut")
+        spades=directory("spadesOut/{sample}_spades/contigs.fasta")
     shell:
+<<<<<<< HEAD
         "sudo spades.py --sc --iontorrent --careful -k 21,33,55,77,99,127 -s {input} -o {output}"
+=======
+        "spades.py --sc --iontorrent --careful -k 21,33,55,77,99,127 -s {input} -o {output.spades}"
+>>>>>>> c79b2f2a8cfb5528f10804b8f3e131dd50127a2f
