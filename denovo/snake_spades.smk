@@ -21,31 +21,13 @@ print("Starting SPADES analysis workflow")
 
 rule all:
     input:
-        expand("spadesOut/results/{sample}_contigs.fasta", sample = config["samples"])
+        expand("spadesOut/{sample}_spades", sample = config["samples"])
 
-#### gather the spades output into one folder
-
-rule gather:
-	input:
-		gather="spadesOut/{sample}_spadesOut/{sample}_contigs.fasta"
-	output:
-		gather="spadesOut/results/{sample}_contigs.fasta"
-	shell:
-		"cp {input.gather} {output.gather}"
-
-#### renaming the spades output
-rule rename:
-	input:
-		rename="spadesOut/{sample}_spadesOut/contigs.fasta"
-	output:
-		rename="spadesOut/{sample}_spades/{sample}_contigs.fasta"
-	shell:
-		"mv {input.rename} {output.rename}"
 #### running spades
 rule spades:
     input:
         lambda wildcards: config["samples"][wildcards.sample]
     output:
-        spades=directory("spadesOut/{sample}_spades/contigs.fasta")
+        directory("spadesOut/{sample}_spades")
     shell:
-        "sudo spades.py --sc --iontorrent --careful -k 21,33,55,77,99,127 -s {input} -o {output}"
+        "spades.py --sc --iontorrent --careful -k 21,33,55,77,99,127 -s {input} -o {output}"
