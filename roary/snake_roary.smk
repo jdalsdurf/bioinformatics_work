@@ -20,14 +20,24 @@ configfile: "config_roary.yaml"
 
 print("Starting Roary analysis workflow")
 
-rule all:
-    input:
-        expand("roaryOut/", sample = config["samples"])
+rule run_roary:
+ input:
+  expand("gff_folder/{samples}.gff", sample = config["samples"])
+ output:
+  "roary.done"
+ params:
+  outdir = "roary_results"
+ shell:
+  """
+  roary -f {params.outdir} -e -n -v {input} && touch {output}
+  """
 
-rule spades:
-    input:
-        lambda wildcards: config["samples"][wildcards.sample]
-    output:
-        directory("roaryOut/")
-    shell:
-        "roary -f {output} -env {input}"
+rule fast_tree:
+ input:
+  aln = "roary_results/core_gene_alignment.aln"
+ output:
+  tree = "roary_results/core_gene_alignment.newick"
+ shell:
+  """
+  FastTree -nt -gtr < {input.aln} > {output.tree}
+  """
