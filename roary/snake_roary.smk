@@ -39,5 +39,5 @@ rule fast_tree:
   tree = "roary_results/core_gene_alignment.newick"
  shell:
   """
-  FastTree -nt -gtr < {input.aln} > {output.tree}
+  FastTree -nt -gtr {input.aln} > {output.tree}
   """
