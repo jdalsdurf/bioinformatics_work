@@ -22,7 +22,7 @@ print("Starting Roary analysis workflow")
 
 rule run_roary:
  input:
-  expand("gff_folder/{samples}.gff", sample = config["samples"])
+  expand("gff_folder/{sample}.gff", sample = config["samples"])
  output:
   "roary.done"
  params:
@@ -39,5 +39,5 @@ rule fast_tree:
   tree = "roary_results/core_gene_alignment.newick"
  shell:
   """
-  FastTree -nt -gtr {input.aln} > {output.tree}
+  fasttree -nt -gtr {input.aln} > {output.tree}
   """
