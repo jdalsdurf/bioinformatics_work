@@ -26,7 +26,7 @@ rule all:
 #### running spades
 rule spades:
     input:
-        lambda wildcards: config["samples"][wildcards.sample]
+        lambda wildcards: config["sample"][wildcards.sample]
     output:
         directory("spadesOut/{sample}_spades")
     shell:
