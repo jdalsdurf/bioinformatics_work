@@ -19,7 +19,7 @@ rule gather:
 #### renaming the spades output
 rule rename:
 	input:
-		rename="unicyclerOut/{sample}_unicyclerOuts/_assembly.fasta"
+		rename="unicyclerOut/{sample}_unicyclerOuts/assembly.fasta"
 	output:
 		rename="unicyclerOut/{sample}_unicyclerOut/{sample}_assembly.fasta"
 	shell:
