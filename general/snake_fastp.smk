@@ -27,6 +27,7 @@ rule FASTP:
     input:
         lambda wildcards: config["samples"][wildcards.sample]
     output:
-        "trimmed/{sample}_trimmed.fastq"
+        trimmed="ibv/trimmed/{sample}_trimmed.fastq",
+        html="ibv/report/{sample}_trimmed.html",
     shell:
         "fastp -i {input} -f 30 -b 400 -o {output}"
