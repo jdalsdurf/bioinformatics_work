@@ -30,4 +30,4 @@ rule kraken2:
         k = "/kraken/{sample}.kraken",
         r = "/report/{sample}.report.txt",
     shell:
-        "kraken2 --use-names --db ~/kraken/defaultDB --report {output.r} {input} > {output.k}"
+        "kraken2 --use-names --db ~/kraken2/defaultDB --report {output.r} {input} > {output.k}"
