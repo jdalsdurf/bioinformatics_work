@@ -21,13 +21,13 @@ print("Starting kraken2 workflow")
 
 rule all:
     input:
-        expand("kraken/{sample}.kraken2", sample = config["samples"])
+        expand("kraken/{sample}.kraken", sample = config["samples"])
 
 rule kraken2:
     input:
         lambda wildcards: config["samples"][wildcards.sample]
     output:
-        k = "/kraken/{sample}.kraken2",
+        k = "/kraken/{sample}.kraken",
         r = "/report/{sample}.report.txt",
     shell:
-        "kraken2 --use-names --db ~/kraken2/defaultDB --report {output.r} {input} > {output.k}"
+        "kraken2 --use-names --db ~/kraken/defaultDB --report {output.r} {input} > {output.k}"
