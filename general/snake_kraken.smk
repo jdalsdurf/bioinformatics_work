@@ -21,13 +21,24 @@ print("Starting kraken2 workflow")
 
 rule all:
     input:
-        expand("kraken/{sample}.kraken", sample = config["samples"])
+        expand("kraken_subset/{sample}_krakenSubset.fasta", sample = config["samples"])
 
 rule kraken2:
     input:
         lambda wildcards: config["samples"][wildcards.sample]
     output:
-        k = "/kraken/{sample}.kraken",
-        r = "/report/{sample}.report.txt",
+        k = "kraken/{sample}.kraken",
+        r = "report_kraken/{sample}.report.txt",
     shell:
         "kraken2 --use-names --db ~/kraken2/defaultDB --report {output.r} {input} > {output.k}"
+
+rule kraken subset:
+	input:
+		fa = lambda wildcards: config["samples"][wildcards.sample],
+	params:
+		tax = "694014",
+		kf = "kraken/{sample}.kraken"
+	output:
+		"kraken_subset/{sample}_krakenSubset.fasta"
+	shell:
+		"~/KrakenTools/extract_kraken_reads.py -k {params.kf} -s {input.fa} -o {output} -t {params.tax}"
