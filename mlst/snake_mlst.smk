@@ -19,18 +19,18 @@ configfile: "config_mlst.yaml"
 
 print("Starting mlst workflow")
 
+rule all:
+    input:
+        expand("mlst_results/{sample}_mlst.csv", sample = config["samples"])
 ##### mlst
 rule mlst:
     input:
         lambda wildcards: config["samples"][wildcards.sample]
-    params:
-        db_mlst = "mlst",
-        type = "csv"
     output:
-        mlst = "mlst_results/{sample}_mlst.csv",
+        mlst = "mlst_results/{sample}_mlst.csv"
     log:
         "mlst_results/logs/{sample}_mlst.log"
     shell:
         """
-		mlst {input} {params.type} > {output.mlst}
+		mlst {input} --csv > {output.mlst}
 		"""
