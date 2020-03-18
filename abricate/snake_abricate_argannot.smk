@@ -22,7 +22,7 @@ print("Starting abricate workflow")
 rule all:
     input:
         expand("abricate_argannot/{sample}_abricate_argannot.csv", sample = config["samples"])
-        
+
 ##### Abricate argannot
 rule argannot:
     input:
@@ -34,3 +34,5 @@ rule argannot:
         argannot = "abricate_argannot/{sample}_abricate_argannot.csv",
     shell:
         "abricate {input} --{params.type} --db {params.db_argannot} > {output.argannot}"
+    log:
+        "logs/argannot.log"

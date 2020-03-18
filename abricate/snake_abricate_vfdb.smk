@@ -22,7 +22,7 @@ print("Starting abricate workflow")
 rule all:
     input:
         expand("abricate_vfdb/{sample}_abricate_vfdb.csv", sample = config["samples"])
-        
+
 ##### Abricate vfdb
 rule vfdb:
     input:
@@ -34,3 +34,5 @@ rule vfdb:
         vfdb = "abricate_vfdb/{sample}_abricate_vfdb.csv",
     shell:
         "abricate {input} --{params.type} --db {params.db_vfdb} > {output.vfdb}"
+    log:
+        "logs/vfdb.log"

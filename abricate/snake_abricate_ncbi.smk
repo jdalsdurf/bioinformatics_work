@@ -22,7 +22,7 @@ print("Starting abricate workflow")
 rule all:
     input:
         expand("abricate_ncbi/{sample}_abricate_ncbi.csv", sample = config["samples"])
-        
+
 ##### Abricate ncbi
 rule ncbi:
     input:
@@ -34,3 +34,5 @@ rule ncbi:
         ncbi = "abricate_ncbi/{sample}_abricate_ncbi.csv",
     shell:
         "abricate {input} --{params.type} --db {params.db_ncbi} > {output.ncbi}"
+    log:
+        "logs/ncbi.log"

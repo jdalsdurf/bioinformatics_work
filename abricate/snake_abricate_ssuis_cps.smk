@@ -22,7 +22,7 @@ print("Starting abricate workflow")
 rule all:
     input:
         expand("abricate_ssuis_cps/{sample}_abricate_ssuis_cps.csv", sample = config["samples"])
-        
+
 ##### Abricate ssuis_cps
 rule ssuis_cps:
     input:
@@ -34,3 +34,5 @@ rule ssuis_cps:
         ssuis_cps = "abricate_ssuis_cps/{sample}_abricate_ssuis_cps.csv",
     shell:
         "abricate {input} --{params.type} --db {params.db_ssuis_cps} > {output.ssuis_cps}"
+    log:
+        "logs/ssuis_cps.log"

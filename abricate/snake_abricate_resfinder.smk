@@ -22,7 +22,7 @@ print("Starting abricate workflow")
 rule all:
     input:
         expand("abricate_resfinder/{sample}_abricate_resfinder.csv", sample = config["samples"])
-        
+
 ##### Abricate resfinder
 rule resfinder:
     input:
@@ -34,3 +34,5 @@ rule resfinder:
         res = "abricate_resfinder/{sample}_abricate_resfinder.csv",
     shell:
         "abricate {input} --{params.type} > {output.res}"
+    log:
+        "logs/resfinder.log"
