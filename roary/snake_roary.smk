@@ -4,11 +4,11 @@ import yaml
 
 file_list = []
 ### location assumes that data is in relabeled_reads/ibv/ folder
-for entry in os.scandir("gff_folder/"):
+for entry in os.scandir("roary_gff/"):
     if entry.is_file():
         file_list.append(entry.name)
 #### this tells where data is that will be used for dictionary
-config_dict = {"samples":{i.split(".")[0]:"gff_folder/"+i for i in file_list}}
+config_dict = {"samples":{i.split(".")[0]:"roary_gff/"+i for i in file_list}}
 
 with open("config_roary.yaml","w") as handle:
     yaml.dump(config_dict,handle)
@@ -22,7 +22,7 @@ print("Starting Roary analysis workflow")
 
 rule run_roary:
  input:
-  expand("gff_folder/{sample}.gff", sample = config["samples"])
+  expand("roary_gff/{sample}.gff", sample = config["samples"])
  output:
   "roary.done"
  params:
