@@ -20,11 +20,15 @@ configfile: "config_roary.yaml"
 
 print("Starting Roary analysis workflow")
 
+rule all:
+    input:
+        "roary_results/core_gene_alignment.newick"
+
 rule run_roary:
  input:
   expand("roary_gff/{sample}.gff", sample = config["samples"])
  output:
-  "roary.done"
+  "roary_results/core_gene_alignment.aln"
  params:
   outdir = "roary_results"
  shell:
