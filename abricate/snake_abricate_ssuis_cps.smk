@@ -21,8 +21,8 @@ print("Starting abricate workflow")
 
 rule all:
     input:
-        expand("abricate_ssuis_cps/{sample}_abricate_ssuis_cps.csv", sample = config["samples"])
-
+        # expand("abricate_ssuis_cps/{sample}_abricate_ssuis_cps.csv", sample = config["samples"])
+        expand("abricate_ssuis_results/all_ssuis.csv")
 ##### Abricate ssuis_cps
 rule ssuis_cps:
     input:
@@ -32,7 +32,18 @@ rule ssuis_cps:
         type = "csv"
     output:
         ssuis_cps = "abricate_ssuis_cps/{sample}_abricate_ssuis_cps.csv",
-    shell:
-        "abricate {input} --{params.type} --db {params.db_ssuis_cps} > {output.ssuis_cps}"
     log:
-        "logs/ssuis_cps.log"
+        "logs/{sample}_ssuis_cps.log"
+    shell:
+        "abricate {input} --{params.type} --db {params.db_ssuis_cps} 2> {log} > {output.ssuis_cps}"
+
+#### concatination of results
+IDS, = glob_wildcards("abricate_ssuis_cps/{id}.csv")
+
+rule concat:
+    input:
+        expand("abricate_ssuis_cps/{id}.csv", id=IDS)
+    output:
+        expand("abricate_ssuis_results/all_ssuis.csv")
+    shell:
+        "cat {input} {output}"
