@@ -32,7 +32,7 @@ rule resfinder:
         type = "csv"
     output:
         res = "abricate_resfinder/{sample}_abricate_resfinder.csv",
+    log:
+        "logs/{sample}_resfinder.log"
     shell:
         "abricate {input} --{params.type} > {output.res}"
-    log:
-        "logs/resfinder.log"

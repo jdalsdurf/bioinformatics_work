@@ -32,7 +32,7 @@ rule ncbi:
         type = "csv"
     output:
         ncbi = "abricate_ncbi/{sample}_abricate_ncbi.csv",
+    log:
+        "logs/{sample}_ncbi.log"
     shell:
         "abricate {input} --{params.type} --db {params.db_ncbi} > {output.ncbi}"
-    log:
-        "logs/ncbi.log"

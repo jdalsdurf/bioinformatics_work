@@ -32,7 +32,7 @@ rule vfdb:
         type = "csv"
     output:
         vfdb = "abricate_vfdb/{sample}_abricate_vfdb.csv",
+    log:
+        "logs/{sample}_vfdb.log"
     shell:
         "abricate {input} --{params.type} --db {params.db_vfdb} > {output.vfdb}"
-    log:
-        "logs/vfdb.log"

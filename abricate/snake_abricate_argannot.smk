@@ -32,7 +32,8 @@ rule argannot:
         type = "csv"
     output:
         argannot = "abricate_argannot/{sample}_abricate_argannot.csv",
+    log:
+        "logs/{sample}_argannot.log"
+
     shell:
         "abricate {input} --{params.type} --db {params.db_argannot} > {output.argannot}"
-    log:
-        "logs/argannot.log"
