@@ -30,11 +30,7 @@ databases = [
 
 rule all:
     input:
-        expand("abricate_results/logs/{sample}_argannot.log", sample = config["samples"]),
-        expand("abricate_results/logs/{sample}_ncbi.log", sample = config["samples"]),
-        expand("abricate_results/logs/{sample}_resfinder.log", sample = config["samples"]),
-        expand("abricate_results/logs/{sample}_vfdb.log", sample = config["samples"]),
-        expand("abricate_results/logs/{sample}_ssuis_cps.log", sample = config["samples"]),
+        "all_abricate.csv"
 
 ##### Abricate argannot
 rule argannot:
@@ -45,12 +41,8 @@ rule argannot:
         type = "csv"
     output:
         argannot = "abricate_results/{sample}_abricate_argannot.csv",
-    log:
-        "abricate_results/logs/{sample}_argannot.log"
     shell:
-        """
-		abricate {input} --{params.type} --db {params.db_argannot} > {output.argannot}
-		"""
+        "abricate {input} --{params.type} --db {params.db_argannot} > {output.argannot}"
 
 ##### Abricate ncbi
 rule ncbi:
@@ -61,8 +53,6 @@ rule ncbi:
         type = "csv"
     output:
         ncbi = "abricate_results/{sample}_abricate_ncbi.csv",
-    log:
-        "abricate_results/logs/{sample}_ncbi.log"
     shell:
         "abricate {input} --{params.type} --db {params.db_ncbi} > {output.ncbi}"
 
@@ -75,25 +65,8 @@ rule resfinder:
         type = "csv"
     output:
         res = "abricate_results/{sample}_abricate_resfinder.csv",
-    log:
-        "abricate_results/logs/{sample}_resfinder.log"
     shell:
         "abricate {input} --{params.type} > {output.res}"
-
-##### Abricate ssuis_cps
-rule ssuis_cps:
-    input:
-        lambda wildcards: config["samples"][wildcards.sample]
-    params:
-        db_ssuis_cps = "ssuis_cps",
-        type = "csv"
-    output:
-        ssuis_cps = "abricate_results/{sample}_abricate_ssuis_cps.csv",
-    log:
-        "abricate_results/logs/{sample}_ssuis_cps.log"
-    shell:
-        "abricate {input} --{params.type} --db {params.db_ssuis_cps} > {output.ssuis_cps}"
-
 
 ##### Abricate vfdb
 rule vfdb:
@@ -104,7 +77,22 @@ rule vfdb:
         type = "csv"
     output:
         vfdb = "abricate_results/{sample}_abricate_vfdb.csv",
-    log:
-        "abricate_results/logs/{sample}_vfdb.log"
     shell:
         "abricate {input} --{params.type} --db {params.db_vfdb} > {output.vfdb}"
+
+rule gather:
+    input:
+        "abricate_results/{sample}_abricate_vfdb.csv",
+        "abricate_results/{sample}_abricate_resfinder.csv",
+        "abricate_results/{sample}_abricate_ncbi.csv",
+        "abricate_results/{sample}_abricate_argannot.csv",
+    output:
+        "all_abricate.csv"
+    shell:
+    """
+    cat ./abricate_argannot/*.csv > all_argannot.csv
+    cat ./abricate_ncbi/*.csv > all_ncbi.csv
+    cat ./abricate_resfinder/*.csv > all_resfinder.csv
+    cat ./abricate_vfdb/*.csv > all_vfdb.csv
+    cat *.csv > all_abricate.csv
+    """
