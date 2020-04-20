@@ -73,4 +73,4 @@ rule gather:
     output:
         "all_abricate.csv"
     shell:
-    "cat {input} > {output}"
+        "cat {input} > {output}"
