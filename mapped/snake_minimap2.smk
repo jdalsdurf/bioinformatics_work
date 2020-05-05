@@ -26,8 +26,8 @@ rule bwa_map:
     input:
         "trimmed/{sample}.fastq"
     params:
-        ref="LS20-3681_Consensus.fasta"
+        ref="avi-farper-174.fasta"
     output:
         "mapped_reads/{sample}_minimap2.bam"
     shell:
-        "minimap2 -a {params.ref} {input} | samtools view -hbSF - > {output}"
+        "minimap2 -ax map-ont {params.ref} {input} | samtools view -hbSF - > {output}"
