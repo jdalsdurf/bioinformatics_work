@@ -20,14 +20,31 @@ configfile: "config_minimap2.yaml"
 
 rule all:
     input:
-        expand("mapped_reads/{sample}_minimap2.bam", sample = config["samples"])
+        expand("bcf_consensus/{sample}_cns.fasta", sample = config["samples"])
 
-rule bwa_map:
+rule minimap2:
     input:
         "trimmed/{sample}.fastq"
     params:
-        ref="avi-farper-174.fasta"
+        ref="ADL-AP01.fasta"
     output:
         "mapped_reads/{sample}_minimap2.bam"
     shell:
-        "minimap2 -ax map-ont {params.ref} {input} | samtools view -hbSF - > {output}"
+        "minimap2 -a {params.ref} {input} | samtools view -bS | samtools sort - -o {output}"
+
+rule bcftools:
+	input:
+		"mapped_reads/{sample}_minimap2.bam"
+	params:
+		ref="ADL-AP01.fasta"
+	output:
+		"variant/{sample}_cns.vcf.gz"
+	shell:
+		"bcftools mpileup -Ou -f {params.ref} {input} | bcftools call -mv -Oz {output}"
+rule bcf_consensus:
+    input:
+    "variant/{sample}_cns.vcf.gz"
+    output:
+    "consensus/{sample}_cns.fasta"
+ 	shell:
+    "seqtk seq -aQ64 -q20 -n N {input} > {output}
