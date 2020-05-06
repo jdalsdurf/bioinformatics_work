@@ -22,6 +22,8 @@ print("Starting abricate workflow")
 rule all:
     input:
         expand("abricate_argannot/{sample}_abricate_argannot.csv", sample = config["samples"])
+    shell:
+        "cat {input} > argannot_all.csv"
 
 ##### Abricate argannot
 rule argannot:

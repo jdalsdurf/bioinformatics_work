@@ -21,10 +21,10 @@ print("Starting Prokka workflow")
 
 rule all:
     input:
-        expand("prokka/{sample}_prokkaOut/{sample}_prokkaOut.gff", sample = config["samples"])
+        expand("prokka/results/{sample}_prokkaOut.gff", sample = config["samples"])
 
 ##### Prokka vfdb
-rule vfdb:
+rule prokka:
     input:
         lambda wildcards: config["samples"][wildcards.sample]
     output:
@@ -34,3 +34,11 @@ rule vfdb:
         dir = "prokka/{sample}_prokkaOut"
     shell:
         "prokka --outdir {params.dir} --prefix {params.name} --centre X {input} --force"
+
+rule gather:
+	input:
+		gather="prokka/{sample}_prokkaOut/{sample}_prokkaOut.gff"
+	output:
+		gather="prokka/results/{sample}_prokkaOut.gff"
+	shell:
+		"cp {input.gather} {output.gather}"
