@@ -41,6 +41,7 @@ rule bcftools:
 		"variant/{sample}_cns.vcf.gz"
 	shell:
 		"bcftools mpileup -Ou -f {params.ref} {input} | bcftools call -mv -Oz {output}"
+<<<<<<< HEAD
 # rule consensus:
 #     input:
 #     "variant/{sample}_cns.vcf.gz"
@@ -48,3 +49,12 @@ rule bcftools:
 #     "consensus/{sample}_cns.fasta"
 #  	shell:
 #     "seqtk seq -aQ64 -q20 -n N {input} > {output}"
+=======
+rule bcf_consensus:
+    input:
+    "variant/{sample}_cns.vcf.gz"
+    output:
+    "consensus/{sample}_cns.fasta"
+ 	shell:
+    "seqtk seq -aQ64 -q20 -n N {input} > {output}
+>>>>>>> 087d87b3046b88d971af7da643401d33cbc1c74e
