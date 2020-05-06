@@ -22,6 +22,8 @@ print("Starting abricate workflow")
 rule all:
     input:
         expand("abricate_vfdb/{sample}_abricate_vfdb.csv", sample = config["samples"])
+    shell:
+        "cat {input} > vfdb_all.csv"
 
 ##### Abricate vfdb
 rule vfdb:

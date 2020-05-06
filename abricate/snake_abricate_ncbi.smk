@@ -22,6 +22,8 @@ print("Starting abricate workflow")
 rule all:
     input:
         expand("abricate_ncbi/{sample}_abricate_ncbi.csv", sample = config["samples"])
+    shell:
+        "cat {input} > ncbi_all.csv"
 
 ##### Abricate ncbi
 rule ncbi:
