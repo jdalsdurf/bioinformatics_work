@@ -21,7 +21,7 @@ print("Starting Prokka workflow")
 
 rule all:
     input:
-        expand("prokka/{sample}_prokkaOut/{sample}_prokkaOut.gff", sample = config["samples"])
+        expand("prokka/results/{sample}_prokkaOut.gff", sample = config["samples"])
 
 ##### Prokka vfdb
 rule prokka:

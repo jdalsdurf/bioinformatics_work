@@ -1,5 +1,5 @@
 #!/bin/bash
 
-for i in *.fastq ; do
-        mv "$i" "${i%%.IonXpress*}.fastq"
+for i in *.gff ; do
+        mv "$i" "${i%%_*}.gff"
 done
