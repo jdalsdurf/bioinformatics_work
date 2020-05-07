@@ -20,7 +20,7 @@ configfile: "config_minimap2.yaml"
 
 rule all:
     input:
-        expand("variant/{sample}_cns.vcf.gz", sample = config["samples"])
+        expand("mapped_reads/{sample}_minimap2.bam", sample = config["samples"])
 
 rule minimap2:
     input:
@@ -32,29 +32,20 @@ rule minimap2:
     shell:
         "minimap2 -a {params.ref} {input} | samtools view -bS | samtools sort - -o {output}"
 
-rule bcftools:
-	input:
-		"mapped_reads/{sample}_minimap2.bam"
-	params:
-		ref="ADL-AP01.fasta"
-	output:
-		"variant/{sample}_cns.vcf.gz"
-	shell:
-		"bcftools mpileup -Ou -f {params.ref} {input} | bcftools call -mv -Oz {output}"
-<<<<<<< HEAD
-# rule consensus:
+# rule bcftools:
+# 	input:
+# 		"mapped_reads/{sample}_minimap2.bam"
+# 	params:
+# 		ref="ADL-AP01.fasta"
+# 	output:
+# 		"variant/{sample}_cns.vcf.gz"
+# 	shell:
+# 		"bcftools mpileup -Ou -f {params.ref} {input} | bcftools call -mv -Oz {output}"
+#
+# rule bcf_consensus:
 #     input:
 #     "variant/{sample}_cns.vcf.gz"
 #     output:
 #     "consensus/{sample}_cns.fasta"
 #  	shell:
-#     "seqtk seq -aQ64 -q20 -n N {input} > {output}"
-=======
-rule bcf_consensus:
-    input:
-    "variant/{sample}_cns.vcf.gz"
-    output:
-    "consensus/{sample}_cns.fasta"
- 	shell:
-    "seqtk seq -aQ64 -q20 -n N {input} > {output}
->>>>>>> 087d87b3046b88d971af7da643401d33cbc1c74e
+#     "seqtk seq -aQ64 -q20 -n N {input} > {output}
