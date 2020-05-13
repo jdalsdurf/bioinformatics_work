@@ -28,8 +28,8 @@ rule spades:
     input:
         lambda wildcards: config["samples"][wildcards.sample]
     params:
-        size="2k"
-        name="{sample}"
+        size="2k",
+        name="{sample}_canu"
     output:
         directory("CANU/{sample}_canu")
     shell:
