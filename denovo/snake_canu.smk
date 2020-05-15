@@ -33,4 +33,4 @@ rule canu:
     output:
         directory("CANU/{sample}_canu")
     shell:
-        "canu -p {params.name} -d {output} -genomeSize={params.size} -nanopore-raw {input}"
+        "canu -p {params.name} -d {output} -genomeSize={params.size} -nanopore {input}"
