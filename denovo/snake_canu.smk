@@ -24,7 +24,7 @@ rule all:
         expand("CANU/{sample}_canu", sample = config["samples"])
 
 #### running spades
-rule spades:
+rule canu:
     input:
         lambda wildcards: config["samples"][wildcards.sample]
     params:
