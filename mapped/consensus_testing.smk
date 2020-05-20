@@ -30,7 +30,7 @@ rule minimap2:
     output:
         "mapped_reads/{sample}_minimap2.bam"
     shell:
-        "minimap2 -a {params.ref} {input} | samtools view -bS | samtools sort - -o {output}"
+        "minimap2 -ax map-ont {params.ref} {input} | samtools view -bS | samtools sort - -o {output}"
 
 rule freebayes:
 	input:

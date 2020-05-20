@@ -26,7 +26,7 @@ rule bwa_map:
     input:
         "trimmed/{sample}.fastq"
     params:
-        ref="avi-farper-174.fasta"
+        ref="avian_reo_complete.fasta"
     output:
         "mapped_reads/{sample}_minimap2.bam"
     shell:
