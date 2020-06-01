@@ -48,7 +48,7 @@ rule replace_rg:
     log:
         "logs/picard/replace_rg/{sample}.log"
     params:
-        "RGLB=lib1 RGPL=illumina RGPU={sample} RGSM={sample}"
+        "RGLB=lib1 RGPL=Torrent RGPU={sample} RGSM={sample} RGID={sample}"
     wrapper:
         "0.59.2/bio/picard/addorreplacereadgroups"
 
