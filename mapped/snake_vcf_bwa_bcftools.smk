@@ -59,7 +59,7 @@ rule bcftools_call:
     output:
         "calls/all.vcf"
     shell:
-        "bcftools mpileup -g -f {input.fa} {input.bam} | "
+        "bcftools mpileup -f {input.fa} {input.bam} | "
         "bcftools call -mv - > {output}"
 
 #
