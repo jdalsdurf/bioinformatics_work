@@ -1,5 +1,5 @@
 #!/bin/bash
 
-for i in *.gff ; do
-        mv "$i" "${i%%_*}.gff"
+for i in *.fastq ; do
+        mv "$i" "${i%%_*}.fastq"
 done
