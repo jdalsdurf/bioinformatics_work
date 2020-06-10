@@ -37,4 +37,4 @@ rule bbnorm:
     output:
         "clean_fastq/{sample}_clean.fastq"
     shell:
-        "bbnorm.sh in={input} out={output} target=100 min=5"
+        "bbnorm.sh in={input} out={output} target=500 min=5"
