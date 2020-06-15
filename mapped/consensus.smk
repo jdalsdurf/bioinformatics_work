@@ -17,79 +17,48 @@ with open("config_minimap2.yaml","w") as handle:
 ##### Need to think back to front
 configfile: "config_minimap2.yaml"
 
-
 rule all:
     input:
-        expand("bcf_consensus/{sample}_cns.fasta", sample = config["samples"])
+        expand("mapped_reads/consensus/{sample}_calls.fasta", sample = config["samples"])
 
 rule minimap2:
     input:
         "trimmed/{sample}.fastq"
     params:
-        ref="AviparaA-JF4211.fasta"
+        ref="reo_ref.fasta"
+    output:
+        "mapped_reads/{sample}_minimap2.sam"
+    shell:
+        "minimap2 -a {params.ref} {input} > {output}"
+
+rule samtools_sort:
+    input:
+        "mapped_reads/{sample}_minimap2.sam"
+    params:
+        ref="reo_ref.fasta"
     output:
         "mapped_reads/{sample}_minimap2.bam"
-    shell:
-        "minimap2 -ax map-ont {params.ref} {input} | samtools view -bS | samtools sort - -o {output}"
+    run:
+        shell("samtools view -bT {params.ref} {input} | samtools sort > {output}"),
+        shell("samtools index {output}")
 
-# rule variant:
-# 	input:
-# 		"mapped_reads/{sample}_minimap2.bam"
-# 	params:
-# 		ref="AviparaA-JF4211.fasta"
-# 	output:
-# 		"variant/{sample}_cns.fastq"
-# 	shell:
-# 		"samtools mpileup -uf {params.ref} {input} | bcftools call -c | vcfutils.pl vcf2fq > {output}"
-
-rule bcftools:
-	input:
-		"mapped_reads/{sample}_minimap2.bam"
-	params:
-		ref="AviparaA-JF4211.fasta"
-	output:
-		"variant/{sample}_cns.vcf.gz"
-	shell:
-		"bcftools mpileup -Ou -f {params.ref} {input} | bcftools call -mv -Oz {output}"
+rule bcftools_mpileup:
+    input:
+        "mapped_reads/{sample}_minimap2.bam"
+    params:
+        ref="reo_ref.fasta"
+    output:
+        "mapped_reads/consensus/{sample}_calls.vcf.gz"
+    run:
+        shell("bcftools mpileup --threads 8 -f {params.ref} {input} | bcftools call -mv -Oz -o {output}"),
+        shell("bcftools index {output}")
 
 rule consensus:
-	input:
-		"variant/{sample}_cns.vcf.gz"
-	params:
-		ref="AviparaA-JF4211.fasta"
-	output:
-		"bcf_consensus/{sample}_cns.fasta"
-	shell:
-		"cat {params.ref} | bcftools consensus {input} > {output}"
-
-
-
-
-
-
-
-
-
-# seqtk seq -aQ64 -q20 -n N SAMPLE_cns.fastq > SAMPLE_cns.fasta
-#
-# testing
-#
-# for i in *T.fastq ; do
-# 	minimap2 -ax map-ont SARB27_CM001274-1_Salmonella_Infantis.fasta $i > ${i%%T.fastq}.sam
-# done
-#
-# for i in *i.fastq ; do
-# 	minimap2 -a SARB27_CM001274-1_Salmonella_Infantis.fasta $i > ${i%%i.fastq}.sam
-# done
-#
-# for i in *.sam ; do
-# 	samtools view -bS $i | samtools sort - -o ${i.sam}.bam
-# done
-#
-# for i in *.bam ; do
-# 	samtools mpileup -uF SARB27_CM001274-1_Salmonella_Infantis.fasta $i | bcftools call -c | vcfutils.pl vcf2fq > ${i.bam}_cns.fastq
-# done
-#
-# for i in *cns.fastq ; do
-# 	seqtk seq -aQ64 -q20 -n N $i > ${i.fastq}.fasta
-# done
+    input:
+        "mapped_reads/consensus/{sample}_calls.vcf.gz"
+    params:
+        ref="reo_ref.fasta"
+    output:
+        "mapped_reads/consensus/{sample}_calls.fasta"
+    shell:
+        "cat {params.ref} | bcftools consensus {input} > {output}"
