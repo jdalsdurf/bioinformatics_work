@@ -33,7 +33,7 @@ rule run_roary:
   outdir = "roary_results"
  shell:
   """
-  roary -f {params.outdir} -e -n -v {input} && touch {output}
+  roary -f {params.outdir} -p 8 -e -n -v {input} && touch {output}
   """
 
 rule fast_tree:
