@@ -3,12 +3,12 @@ import os
 import yaml
 
 file_list = []
-### location assumes that data is in results/ folder which is output of SPADES snake workflow
-for entry in os.scandir("results/"):
+### location assumes that data is in fasta_input/ folder which is output of SPADES snake workflow
+for entry in os.scandir("fasta_input/"):
     if entry.is_file():
         file_list.append(entry.name)
 #### this tells where data is that will be used for dictionary
-config_dict = {"samples":{i.split(".")[0]:"results/"+i for i in file_list}}
+config_dict = {"samples":{i.split(".")[0]:"fasta_input/"+i for i in file_list}}
 
 with open("config_prokka.yaml","w") as handle:
     yaml.dump(config_dict,handle)
@@ -21,7 +21,7 @@ print("Starting Prokka workflow")
 
 rule all:
     input:
-        expand("prokka/results/{sample}_prokkaOut.gff", sample = config["samples"])
+        expand("prokka/fasta_input/{sample}_prokkaOut.gff", sample = config["samples"])
 
 ##### Prokka vfdb
 rule prokka:
@@ -39,6 +39,6 @@ rule gather:
 	input:
 		gather="prokka/{sample}_prokkaOut/{sample}_prokkaOut.gff"
 	output:
-		gather="prokka/results/{sample}_prokkaOut.gff"
+		gather="prokka/fasta_input/{sample}_prokkaOut.gff"
 	shell:
 		"cp {input.gather} {output.gather}"
