@@ -10,31 +10,32 @@ for entry in os.scandir("fasta_input/"):
 #### this tells where data is that will be used for dictionary
 config_dict = {"samples":{i.split(".")[0]:"fasta_input/"+i for i in file_list}}
 
-with open("config_abricate_resfinder.yaml","w") as handle:
+with open("config_abricate_megares.yaml","w") as handle:
     yaml.dump(config_dict,handle)
 
 ##### rule all is a general rule that says this is the results we are lookin for in the end.
 ##### Need to think back to front
-configfile: "config_abricate_resfinder.yaml"
+configfile: "config_abricate_megares.yaml"
 
 print("Starting abricate workflow")
 
 rule all:
     input:
-        expand("abricate_resfinder/{sample}_abricate_resfinder.csv", sample = config["samples"])
+        expand("abricate_megares/{sample}_abricate_megares.csv", sample = config["samples"])
     shell:
-        "cat {input} > resfinder_all.csv"
+        "cat {input} > megares_all.csv"
 
-##### Abricate resfinder
-rule resfinder:
+##### Abricate megares
+rule megares:
     input:
         lambda wildcards: config["samples"][wildcards.sample]
     params:
-        db_resfinder = "leaveblank",
+        db_megares = "megares",
         type = "csv"
     output:
-        res = "abricate_resfinder/{sample}_abricate_resfinder.csv",
+        megares = "abricate_megares/{sample}_abricate_megares.csv",
     log:
-        "logs/{sample}_resfinder.log"
+        "logs/{sample}_megares.log"
+
     shell:
-        "abricate {input} --{params.type} > {output.res}"
+        "abricate {input} --{params.type} --db {params.db_megares} > {output.megares}"
