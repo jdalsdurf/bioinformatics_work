@@ -3,34 +3,31 @@ import os
 import yaml
 
 file_list = []
-### location assumes that data is in results/ folder which is output of SPADES snake workflow
+### location assumes that data is in relabeled_reads/ibv/ folder
 for entry in os.scandir("fasta_input/"):
     if entry.is_file():
         file_list.append(entry.name)
 #### this tells where data is that will be used for dictionary
 config_dict = {"samples":{i.split(".")[0]:"fasta_input/"+i for i in file_list}}
 
-with open("config_mlst.yaml","w") as handle:
+with open("config_minimap2.yaml","w") as handle:
     yaml.dump(config_dict,handle)
 
 ##### rule all is a general rule that says this is the results we are lookin for in the end.
 ##### Need to think back to front
-configfile: "config_mlst.yaml"
+configfile: "config_minimap2.yaml"
 
-print("Starting mlst workflow")
 
 rule all:
     input:
-        expand("mlst_results/{sample}_mlst.csv", sample = config["samples"])
-##### mlst
-rule mlst:
+        expand("mapped_reads/{sample}_minimap2.bam", sample = config["samples"])
+
+rule bwa_map:
     input:
-        lambda wildcards: config["samples"][wildcards.sample]
+        "fasta_input/{sample}.fasta"
+    params:
+        ref="s_suis_reference.fasta"
     output:
-        mlst = "mlst_results/{sample}_mlst.csv"
-    log:
-        "mlst_results/logs/{sample}_mlst.log"
+        "mapped_reads/{sample}_minimap2.bam"
     shell:
-        """
-		mlst {input} --csv > {output.mlst}
-		"""
+        "minimap2 -ax asm5 {params.ref} {input} | samtools view -hbSF - > {output}"
