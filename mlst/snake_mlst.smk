@@ -22,6 +22,8 @@ print("Starting mlst workflow")
 rule all:
     input:
         expand("mlst_results/{sample}_mlst.csv", sample = config["samples"])
+    shell:
+        "cat {input} > mlst_all.csv"
 ##### mlst
 rule mlst:
     input:
