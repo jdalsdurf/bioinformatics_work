@@ -21,29 +21,42 @@ print("Starting abricate workflow")
 
 rule abricate_all:
     input:
-        lambda wildcards: config["samples"][wildcards.sample]
-params:
-    argannot = "argannot",
-    ncbi = "ncbi"
-    resfinder="resfinder"
-    vfdb="vfdb"
-    card="card"
-    megares="megares"
-    csv="csv"
-output:
-    argannot = "abricateResults/{sample}_abricate_argannot.csv",
-    ncbi = "abricateResults/{sample}_abricate_ncbi.csv",
-    resfinder="abricateResults/{sample}_abricate_resfinder.csv",
-    vfdb="abricateResults/{sample}_abricate_vfdb.csv",
-    card="abricateResults/{sample}_abricate_card.csv",
-    megares="abricateResults/{sample}_abricate_megares.csv",
-run:
-    shell(abricate {input} --csv --db {params.argannot} > {output.argannot}),
-    shell(abricate {input} --csv --db {params.ncbi} > {output.ncbi}),
-    shell(abricate {input} --csv --db {params.resfinder} > {output.resfinder}),
-    shell(abricate {input} --csv --db {params.vfdb} > {output.vfdb}),
-    shell(abricate {input} --csv --db {params.card} > {output.card}),
-    shell(abricate {input} --csv --db {params.megares} > {output.megares}),
-rule cat_csv:
+        expand("abricateResults/{sample}_abricate_argannot.csv", sample = config["samples"]),
+        expand("abricateResults/{sample}_abricate_ncbi.csv", sample = config["samples"]),
+        expand("abricateResults/{sample}_abricate_resfinder.csv", sample = config["samples"]),
+        expand("abricateResults/{sample}_abricate_vfdb.csv", sample = config["samples"]),
+        expand("abricateResults/{sample}_abricate_card.csv", sample = config["samples"]),
+        expand("abricateResults/{sample}_abricate_megares.csv", sample = config["samples"]),
+    shell:
+        "cat {input} > argannot_all.csv"
+
+rule run_all:
     input:
-        "abricateResults/{sample}_abricate_argannot.csv",
+        lambda wildcards: config["samples"][wildcards.sample]
+
+    params:
+        argannot = "argannot",
+        ncbi = "ncbi",
+        resfinder="resfinder",
+        vfdb="vfdb",
+        card="card",
+        megares="megares",
+        csv="csv",
+
+    output:
+        argannot = "abricateResults/{sample}_abricate_argannot.csv",
+        ncbi = "abricateResults/{sample}_abricate_ncbi.csv",
+        resfinder="abricateResults/{sample}_abricate_resfinder.csv",
+        vfdb="abricateResults/{sample}_abricate_vfdb.csv",
+        card="abricateResults/{sample}_abricate_card.csv",
+        megares="abricateResults/{sample}_abricate_megares.csv"
+
+    shell:
+        """
+        abricate {input} --csv --db {params.argannot} > {output.argannot}
+        abricate {input} --csv --db {params.ncbi} > {output.ncbi}
+        abricate {input} --csv --db {params.resfinder} > {output.resfinder}
+        abricate {input} --csv --db {params.vfdb} > {output.vfdb}
+        abricate {input} --csv --db {params.card} > {output.card}
+        abricate {input} --csv --db {params.megares} > {output.megares}
+        """
