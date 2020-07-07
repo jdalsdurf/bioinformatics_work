@@ -42,3 +42,7 @@ rule kraken2:
         r = "report_kraken/{sample}.report.txt",
     shell:
         "kraken2 --use-names --db ~/kraken2/defaultDB --report {output.r} {input} > {output.k}"
+
+### avibacterium 728
+### S.suis 1307
+### reovirus 38170
