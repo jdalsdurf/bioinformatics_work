@@ -27,6 +27,8 @@ rule abricate_all:
         expand("abricateResults/{sample}_abricate_vfdb.csv", sample = config["samples"]),
         expand("abricateResults/{sample}_abricate_card.csv", sample = config["samples"]),
         expand("abricateResults/{sample}_abricate_megares.csv", sample = config["samples"]),
+        expand("abricateResults/{sample}_abricate_silva_pcr.csv", sample = config["samples"]),
+        expand("abricateResults/{sample}_abricate_wileman_pcr.csv", sample = config["samples"]),
     shell:
         "cat {input} > argannot_all.csv"
 
@@ -42,6 +44,8 @@ rule run_all:
         card="card",
         megares="megares",
         csv="csv",
+        silva="silva_pcr",
+        wileman="wileman_db",
 
     output:
         argannot = "abricateResults/{sample}_abricate_argannot.csv",
@@ -49,7 +53,9 @@ rule run_all:
         resfinder="abricateResults/{sample}_abricate_resfinder.csv",
         vfdb="abricateResults/{sample}_abricate_vfdb.csv",
         card="abricateResults/{sample}_abricate_card.csv",
-        megares="abricateResults/{sample}_abricate_megares.csv"
+        megares="abricateResults/{sample}_abricate_megares.csv",
+        silva_pcr="abricateResults/{sample}_abricate_silva_pcr.csv",
+        wileman="abricateResults/{sample}_abricate_wileman_pcr.csv",
 
     shell:
         """
@@ -59,4 +65,6 @@ rule run_all:
         abricate {input} --csv --db {params.vfdb} > {output.vfdb}
         abricate {input} --csv --db {params.card} > {output.card}
         abricate {input} --csv --db {params.megares} > {output.megares}
+        abricate {input} --csv --db {params.silva} > {output.silva_pcr}
+        abricate {input} --csv --db {params.wileman} > {output.wileman}
         """
