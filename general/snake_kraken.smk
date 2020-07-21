@@ -28,7 +28,7 @@ rule kraken subset:
 		fa = lambda wildcards: config["samples"][wildcards.sample],
 		kf = "kraken/{sample}.kraken",
 	params:
-		tax = "728",
+		tax = "738",
 	output:
 		"kraken_subset/{sample}_krakenSubset.fasta"
 	shell:
@@ -46,3 +46,4 @@ rule kraken2:
 ### avibacterium 728
 ### S.suis 1307
 ### reovirus 38170
+### h.parasuis 738

@@ -10,24 +10,23 @@ for entry in os.scandir("clean_fastq/"):
 #### this tells where data is that will be used for dictionary
 config_dict = {"samples":{i.split(".")[0]:"clean_fastq/"+i for i in file_list}}
 
-with open("config_minimap2.yaml","w") as handle:
+with open("config.yaml","w") as handle:
     yaml.dump(config_dict,handle)
 
 ##### rule all is a general rule that says this is the results we are lookin for in the end.
 ##### Need to think back to front
-configfile: "config_minimap2.yaml"
+configfile: "config.yaml"
 
+print("Starting IRMA IBV analysis workflow")
 
 rule all:
     input:
-        expand("mapped_reads/{sample}_minimap2.bam", sample = config["samples"])
+        expand("irmaOut/{sample}_irmaOut", sample = config["samples"])
 
-rule bwa_map:
+rule irma_IBV:
     input:
-        "clean_fastq/{sample}.fastq"
-    params:
-        ref="prrs_mn11b.fasta"
+        lambda wildcards: config["samples"][wildcards.sample]
     output:
-        "mapped_reads/{sample}_minimap2.bam"
+        directory("irmaOut/{sample}_irmaOut")
     shell:
-        "minimap2 -a {params.ref} {input} | samtools view -hbSF - > {output}"
+        "~/flu-amd/IRMA prrs {input} {output}"
