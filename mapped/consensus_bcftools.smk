@@ -1,3 +1,8 @@
+############ works, might need more testing
+
+
+
+
 #### this passes all fastq files to the following programs
 import os
 import yaml
@@ -25,7 +30,7 @@ rule minimap2:
     input:
         "trimmed/{sample}.fastq"
     params:
-        ref="reo_ref.fasta"
+        ref="prrs_mn11b.fasta"
     output:
         "mapped_reads/{sample}_minimap2.sam"
     shell:
@@ -35,7 +40,7 @@ rule samtools_sort:
     input:
         "mapped_reads/{sample}_minimap2.sam"
     params:
-        ref="reo_ref.fasta"
+        ref="prrs_mn11b.fasta"
     output:
         "mapped_reads/{sample}_minimap2.bam"
     run:
@@ -46,7 +51,7 @@ rule bcftools_mpileup:
     input:
         "mapped_reads/{sample}_minimap2.bam"
     params:
-        ref="reo_ref.fasta"
+        ref="prrs_mn11b.fasta"
     output:
         "mapped_reads/consensus/{sample}_calls.vcf.gz"
     run:
@@ -57,7 +62,7 @@ rule consensus:
     input:
         "mapped_reads/consensus/{sample}_calls.vcf.gz"
     params:
-        ref="reo_ref.fasta"
+        ref="prrs_mn11b.fasta"
     output:
         "mapped_reads/consensus/{sample}_calls.fasta"
     shell:

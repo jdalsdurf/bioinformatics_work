@@ -26,7 +26,7 @@ rule bwa_map:
     input:
         "clean_fastq/{sample}.fastq"
     params:
-        ref="prrs_mn11b.fasta"
+        ref="mn073167.fasta"
     output:
         "mapped_reads/{sample}_minimap2.bam"
     shell:

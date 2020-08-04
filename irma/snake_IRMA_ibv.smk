@@ -29,4 +29,4 @@ rule irma_IBV:
     output:
         directory("irmaOut/{sample}_irmaOut")
     shell:
-        "~/flu-amd/IRMA ibv {input} {output}"
+        "sudo ~/flu-amd/IRMA ibv {input} {output}"
