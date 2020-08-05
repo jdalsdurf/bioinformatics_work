@@ -23,13 +23,14 @@ rule all:
     input:
         expand("clean_fastq/{sample}_clean.fastq", sample = config["samples"])
 
-rule seqtk_trimm:
+rule bbduk:
     input:
         lambda wildcards: config["samples"][wildcards.sample]
     output:
         trimmed="trimmed/{sample}_trimmed.fastq",
     shell:
-        "seqtk trimfq {input} > {output}"
+        "bbduk.sh in={input} out={output} qtrim=rl trimq=20 maq=10 minlen=50"
+        #### trimming right and left to quality of 20, minimum length of 50 bp and discard reads with quality below 10
 
 rule bbnorm:
     input:
