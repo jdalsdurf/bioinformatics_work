@@ -43,4 +43,4 @@ rule porechop:
     output:
         name="porechop_out/{sample}_porechopOut.fastq"
     shell:
-        "porechop -i {input} -o {output.name} -t 4"
+        "porechop -i {input} -o {output.name} -t 4 --barcode_threshold 85 --require_two_barcodes"
