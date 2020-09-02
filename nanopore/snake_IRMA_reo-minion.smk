@@ -4,11 +4,11 @@ import yaml
 
 file_list = []
 ### location assumes that data is in relabeled_reads/ibv/ folder
-for entry in os.scandir("porechop_out/"):
+for entry in os.scandir("clean_fastq/"):
     if entry.is_file():
         file_list.append(entry.name)
 #### this tells where data is that will be used for dictionary
-config_dict = {"samples":{i.split(".")[0]:"porechop_out/"+i for i in file_list}}
+config_dict = {"samples":{i.split(".")[0]:"clean_fastq/"+i for i in file_list}}
 
 with open("config.yaml","w") as handle:
     yaml.dump(config_dict,handle)

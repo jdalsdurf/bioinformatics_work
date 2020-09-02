@@ -4,11 +4,11 @@ import yaml
 
 file_list = []
 ### location assumes that data is in relabeled_reads/ibv/ folder
-for entry in os.scandir("raw_reads/"):
+for entry in os.scandir("porechop_out/"):
     if entry.is_file():
         file_list.append(entry.name)
 #### this tells where data is that will be used for dictionary
-config_dict = {"samples":{i.split(".")[0]:"raw_reads/"+i for i in file_list}}
+config_dict = {"samples":{i.split(".")[0]:"porechop_out/"+i for i in file_list}}
 
 with open("config_fastp.yaml","w") as handle:
     yaml.dump(config_dict,handle)
@@ -21,12 +21,12 @@ print("Starting trimming with FASTP workflow")
 
 rule all:
     input:
-        expand("trimmed/{sample}_trimmed.fastq", sample = config["samples"])
+        expand("clean_fastq/{sample}_trimmed.fastq", sample = config["samples"])
 
 rule FASTP:
     input:
         lambda wildcards: config["samples"][wildcards.sample]
     output:
-        trimmed="trimmed/{sample}_trimmed.fastq",
+        trimmed="clean_fastq/{sample}_trimmed.fastq",
     shell:
         "fastp -i {input} -b 2000 -o {output}"
