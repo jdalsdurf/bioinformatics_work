@@ -29,4 +29,4 @@ rule FASTP:
     output:
         trimmed="clean_fastq/{sample}_trimmed.fastq",
     shell:
-        "fastp -i {input} -b 2000 -o {output}"
+        "fastp -i {input} -b 2000 -l 1000 -o {output}"
