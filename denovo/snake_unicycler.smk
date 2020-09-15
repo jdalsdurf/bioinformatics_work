@@ -4,11 +4,11 @@ import yaml
 
 file_list = []
 ### location assumes that data is in relabeled_reads/ibv/ folder
-for entry in os.scandir("trimmed/"):
+for entry in os.scandir("clean_fastq/"):
     if entry.is_file():
         file_list.append(entry.name)
 #### this tells where data is that will be used for dictionary
-config_dict = {"samples":{i.split(".")[0]:"trimmed/"+i for i in file_list}}
+config_dict = {"samples":{i.split(".")[0]:"clean_fastq/"+i for i in file_list}}
 
 with open("config_unicycler.yaml","w") as handle:
     yaml.dump(config_dict,handle)
@@ -30,4 +30,4 @@ rule spades:
     output:
         directory("unicyclerOut/{sample}_unicyclerOut")
     shell:
-        "unicycler -s {input} -o {output}"
+        "unicycler -s {input} -o {output} --kmers 21,33,55,77,99,127"

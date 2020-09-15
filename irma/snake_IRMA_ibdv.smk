@@ -4,29 +4,29 @@ import yaml
 
 file_list = []
 ### location assumes that data is in relabeled_reads/ibv/ folder
-for entry in os.scandir("porechop_out/"):
+for entry in os.scandir("raw_reads/"):
     if entry.is_file():
         file_list.append(entry.name)
 #### this tells where data is that will be used for dictionary
-config_dict = {"samples":{i.split(".")[0]:"porechop_out/"+i for i in file_list}}
+config_dict = {"samples":{i.split(".")[0]:"raw_reads/"+i for i in file_list}}
 
-with open("config_fastp.yaml","w") as handle:
+with open("config_flu.yaml","w") as handle:
     yaml.dump(config_dict,handle)
 
 ##### rule all is a general rule that says this is the results we are lookin for in the end.
 ##### Need to think back to front
-configfile: "config_fastp.yaml"
+configfile: "config_flu.yaml"
 
-print("Starting trimming with FASTP workflow")
+print("Starting IRMA FLU analysis workflow")
 
 rule all:
     input:
-        expand("clean_fastq/{sample}_trimmed.fastq", sample = config["samples"])
+        expand("irmaOut/{sample}_irmaOut", sample = config["samples"])
 
-rule FASTP:
+rule irma_flu:
     input:
         lambda wildcards: config["samples"][wildcards.sample]
     output:
-        trimmed="clean_fastq/{sample}_trimmed.fastq",
+        directory("irmaOut/{sample}_irmaOut")
     shell:
-        "fastp -i {input} -b 1700 -l 1600 -o {output}"
+        "sudo ~/flu-amd/IRMA ibdv {input} {output}"
