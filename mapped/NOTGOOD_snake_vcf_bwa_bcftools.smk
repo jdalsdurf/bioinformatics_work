@@ -50,7 +50,7 @@ rule replace_rg:
     params:
         "RGLB=lib1 RGPL=illumina RGPU={sample} RGSM={sample}"
     wrapper:
-        "0.59.2/bio/picard/addorreplacereadgroups"
+        "0.67.0/bio/picard/addorreplacereadgroups"
 
 rule samtools_index:
     input:
@@ -78,4 +78,4 @@ rule freebayes:
         chunksize=100000  # reference genome chunk size for parallelization (default: 100000)
     threads: 2
     wrapper:
-        "0.59.2/bio/freebayes"
+        "0.67.0/bio/freebayes"

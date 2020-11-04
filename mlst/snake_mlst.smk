@@ -4,11 +4,11 @@ import yaml
 
 file_list = []
 ### location assumes that data is in results/ folder which is output of SPADES snake workflow
-for entry in os.scandir("fasta_input/"):
+for entry in os.scandir("clean_fasta/"):
     if entry.is_file():
         file_list.append(entry.name)
 #### this tells where data is that will be used for dictionary
-config_dict = {"samples":{i.split(".")[0]:"fasta_input/"+i for i in file_list}}
+config_dict = {"samples":{i.split(".")[0]:"clean_fasta/"+i for i in file_list}}
 
 with open("config_mlst.yaml","w") as handle:
     yaml.dump(config_dict,handle)
