@@ -10,12 +10,12 @@ for entry in os.scandir("clean_fastq/"):
 #### this tells where data is that will be used for dictionary
 config_dict = {"samples":{i.split("_L001_")[0]:"clean_fastq/"+i for i in file_list}}
 
-with open("config_irmaIBV_wholeGenome.yaml","w") as handle:
+with open("config_haphpipe_ibv.yaml","w") as handle:
     yaml.dump(config_dict,handle)
 
 ##### rule all is a general rule that says this is the results we are lookin for in the end.
 ##### Need to think back to front
-configfile: "config_irmaIBV_wholeGenome.yaml"
+configfile: "config_haphpipe_ibv.yaml"
 
 rule all:
     input:
@@ -24,8 +24,8 @@ rule all:
 
 rule assemble_denovo:
     input:
-        r1 = 'clean_fastq/{sample}_L001_R1_001.fastq',
-        r2 = 'clean_fastq/{sample}_L001_R2_001.fastq'
+        r1 = 'clean_fastq/{sample}_L001_R1_001.fastq.gz',
+        r2 = 'clean_fastq/{sample}_L001_R2_001.fastq.gz'
     output:
         rename="denovo_results/{sample}_denovo_contigs.fasta",
         rename2="denovo_results/{sample}_denovo_contigs.txt",
