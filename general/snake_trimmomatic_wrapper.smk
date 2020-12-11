@@ -10,31 +10,38 @@ for entry in os.scandir("raw_reads/"):
 #### this tells where data is that will be used for dictionary
 config_dict = {"samples":{i.split("_L001_")[0]:"raw_reads/"+i for i in file_list}}
 
-with open("config_fastp.yaml","w") as handle:
+with open("config_trimmomatic.yaml","w") as handle:
     yaml.dump(config_dict,handle)
 
 ##### rule all is a general rule that says this is the results we are lookin for in the end.
 ##### Need to think back to front
-configfile: "config_fastp.yaml"
+configfile: "config_trimmomatic.yaml"
 
-print("Starting trimming with FASTP workflow")
+print("Starting trimming with trimmomatic workflow")
 
 rule all:
     input:
-        expand("trimmed_fastp/{sample}_L001_R1_001.fastq.gz", sample = config["samples"])
+        expand("trimmed/{sample}_L001_R1_001.fastq", sample = config["samples"])
 
-rule FASTP:
 rule trimmomatic_pe:
     input:
         r1="raw_reads/{sample}_L001_R1_001.fastq.gz",
         r2="raw_reads/{sample}_L001_R2_001.fastq.gz"
     output:
-        r1="trimmed_fastp/{sample}_L001_R1_001.fastq.gz",
-        r2="trimmed_fastp/{sample}_L001_R2_001.fastq.gz",
+        r1="trimmed/{sample}_L001_R1_001.fastq",
+        r2="trimmed/{sample}_L001_R2_001.fastq",
         # reads where trimming entirely removed the mate
-        r1_unpaired="unpaired_fastp/{sample}_unpaired_R1.fastq.gz",
-        r2_unpaired="unpaired_fastp/{sample}_unpaired_R2.fastq.gz"
+        r1_unpaired="unpaired/{sample}_unpaired_R1.fastq",
+        r2_unpaired="unpaired/{sample}_unpaired_R2.fastq"
+    log:
+        "logs/trimmomatic/{sample}.log"
     params:
-        subset="--reads_to_process 10000"
-    shell:
-        "fastp --in1 {input.r1} --in2 {input.r2} --out1 {output.r1} --out2 {output.r2}  --unpaired1 {output.r1_unpaired} --unpaired2 {output.r2_unpaired} {params.subset}"
+        # list of trimmers (see manual)
+        trimmer=["TRAILING:3"],
+        # optional parameters
+        extra="",
+        compression_level="-9"
+    threads:
+        32
+    wrapper:
+        "0.68.0/bio/trimmomatic/pe"

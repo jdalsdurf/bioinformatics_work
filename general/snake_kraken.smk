@@ -41,7 +41,7 @@ rule kraken2:
         k = "kraken/{sample}.kraken",
         r = "report_kraken/{sample}.report.txt",
     shell:
-        "kraken2 --use-names --db ~/kraken2/defaultDB --report {output.r} {input} > {output.k}"
+        "kraken2 --use-names --db /mnt/y/jalsdurf/kraken2db/ncbi/minikraken2_v1_8GB --report {output.r} {input} > {output.k}"
 
 ### avibacterium 728
 ### S.suis 1307

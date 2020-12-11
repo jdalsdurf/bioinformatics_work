@@ -10,25 +10,25 @@ for entry in os.scandir("clean_fastq/"):
 #### this tells where data is that will be used for dictionary
 config_dict = {"samples":{i.split("_L001_")[0]:"clean_fastq/"+i for i in file_list}}
 
-with open("config_spades.yaml","w") as handle:
+with open("config_unicycler.yaml","w") as handle:
     yaml.dump(config_dict,handle)
 
 ##### rule all is a general rule that says this is the results we are lookin for in the end.
 ##### Need to think back to front
-configfile: "config_spades.yaml"
+configfile: "config_unicycler.yaml"
 
-print("Starting SPADES analysis workflow")
+print("Starting Unicycler analysis workflow")
 
 rule all:
     input:
-        expand("spadesOut/{sample}_spades", sample = config["samples"])
+        expand("unicyclerOut/{sample}_unicycler", sample = config["samples"])
 
-#### running spades
-rule spades:
+#### running unicycler
+rule unicycler:
     input:
         r1 = 'clean_fastq/{sample}_L001_R1_001.fastq.gz',
         r2 = 'clean_fastq/{sample}_L001_R2_001.fastq.gz'
     output:
-        directory("spadesOut/{sample}_spades")
+        directory("unicyclerOut/{sample}_unicycler")
     shell:
-        "spades.py -1 {input.r1} -2 {input.r2} -o {output}"
+        "unicycler -1 {input.r1} -2 {input.r2} -o {output} -t 32"
