@@ -28,11 +28,12 @@ rule kraken subset:
 		fa = lambda wildcards: config["samples"][wildcards.sample],
 		kf = "kraken/{sample}.kraken",
 	params:
-		tax = "1965067",
+		tax = "11120",
+        report = "kraken/report/{sample}.kraken"
 	output:
 		"kraken_subset/{sample}_krakenSubset.fasta"
 	shell:
-		"~/KrakenTools/extract_kraken_reads.py -k {input.kf} -s {input.fa} -o {output} -t {params.tax}"
+		"~/KrakenTools/extract_kraken_reads.py -k {input.kf} -s {input.fa} -o {output} -t {params.tax} --include-children -r {params.report}"
 
 rule kraken2:
     input:
