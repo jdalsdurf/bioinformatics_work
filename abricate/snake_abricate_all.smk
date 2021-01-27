@@ -30,7 +30,7 @@ rule abricate_all:
         expand("abricateResults/{sample}_abricate_silva_pcr.csv", sample = config["samples"]),
         expand("abricateResults/{sample}_abricate_wileman_pcr.csv", sample = config["samples"]),
     shell:
-        "cat {input} > argannot_all.csv"
+        "cat {input} > abricate_all.csv"
 
 rule run_all:
     input:

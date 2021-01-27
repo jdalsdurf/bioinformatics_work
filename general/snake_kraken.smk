@@ -28,12 +28,12 @@ rule kraken subset:
 		fa = lambda wildcards: config["samples"][wildcards.sample],
 		kf = "kraken/{sample}.kraken",
 	params:
-		tax = "11120",
-        report = "kraken/report/{sample}.kraken"
+		tax = "590",
+		report = "report_kraken/{sample}.report.txt"
 	output:
 		"kraken_subset/{sample}_krakenSubset.fasta"
 	shell:
-		"~/KrakenTools/extract_kraken_reads.py -k {input.kf} -s {input.fa} -o {output} -t {params.tax} --include-children -r {params.report}"
+		"~/krakendb/krakenStandardDb/KrakenTools/extract_kraken_reads.py -k {input.kf} -s {input.fa} -o {output} -t {params.tax} --include-children -r {params.report} "
 
 rule kraken2:
     input:
@@ -42,7 +42,7 @@ rule kraken2:
         k = "kraken/{sample}.kraken",
         r = "report_kraken/{sample}.report.txt",
     shell:
-        "kraken2 --use-names --db /mnt/y/jalsdurf/kraken2db/ncbi/minikraken2_v1_8GB --report {output.r} {input} > {output.k}"
+        "kraken2 --use-names --db ~/krakendb/krakenStandardDb/ --report {output.r} {input} > {output.k}"
 
 ### avibacterium 728
 ### S.suis 1307
