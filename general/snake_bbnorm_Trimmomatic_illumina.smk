@@ -54,7 +54,7 @@ rule trimmomatic_pe:
         r2="bbtools/bbnorm/{sample}_L001_R2_001.fastq"
     output:
         r1="clean_fastq/{sample}_L001_R1_001.fastq",
-        r2="clean/fastq/{sample}_L001_R2_001.fastq",
+        r2="clean_fastq/{sample}_L001_R2_001.fastq",
         # reads where trimming entirely removed the mate
         r1_unpaired="unpaired/{sample}_unpaired_R1.fastq",
         r2_unpaired="unpaired/{sample}_unpaired_R2.fastq"
