@@ -28,12 +28,12 @@ rule kraken subset:
 		fa = lambda wildcards: config["samples"][wildcards.sample],
 		kf = "kraken/{sample}.kraken",
 	params:
-		tax = "590",
+		tax = "28903",
 		report = "report_kraken/{sample}.report.txt"
 	output:
 		"kraken_subset/{sample}_krakenSubset.fasta"
 	shell:
-		"~/krakendb/krakenStandardDb/KrakenTools/extract_kraken_reads.py -k {input.kf} -s {input.fa} -o {output} -t {params.tax} --include-children -r {params.report} "
+		"~/kraken2db/KrakenTools/extract_kraken_reads.py -k {input.kf} -s {input.fa} -o {output} -t {params.tax} --include-children -r {params.report} "
 
 rule kraken2:
     input:
@@ -42,9 +42,10 @@ rule kraken2:
         k = "kraken/{sample}.kraken",
         r = "report_kraken/{sample}.report.txt",
     shell:
-        "kraken2 --use-names --db ~/krakendb/krakenStandardDb/ --report {output.r} {input} > {output.k}"
+        "kraken2 --use-names --db ~/kraken2db/ --report {output.r} {input} > {output.k}"
 
 ### avibacterium 728
 ### S.suis 1307
 ### reovirus 38170
 ### h.parasuis 738
+### mycoplasma bovis 28903
