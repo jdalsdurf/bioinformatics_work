@@ -10,7 +10,7 @@ rule all:
 
 rule gather:
 	input:
-		gather="unicyclerOut/{sample}_unicyclerOut/{sample}_assembly.fasta"
+		gather="unicyclerOut/{sample}_unicycler/{sample}_assembly.fasta"
 	output:
 		gather="unicyclerOut/results/{sample}_assembly.fasta"
 	shell:
@@ -19,8 +19,8 @@ rule gather:
 #### renaming the spades output
 rule rename:
 	input:
-		rename="unicyclerOut/{sample}_unicyclerOut/assembly.fasta"
+		rename="unicyclerOut/{sample}_unicycler/assembly.fasta"
 	output:
-		rename="unicyclerOut/{sample}_unicyclerOut/{sample}_assembly.fasta"
+		rename="unicyclerOut/{sample}_unicycler/{sample}_assembly.fasta"
 	shell:
 		"mv {input.rename} {output.rename}"
