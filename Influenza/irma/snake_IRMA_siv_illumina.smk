@@ -25,9 +25,9 @@ rule all:
 
 rule irma_IBV:
     input:
-        r1 = 'clean_fastq/{sample}_L001_R1_001.fastq',
-        r2 = 'clean_fastq/{sample}_L001_R2_001.fastq'
+        r1 = 'clean_fastq/{sample}_L001_R1_001.fastq.gz',
+        r2 = 'clean_fastq/{sample}_L001_R2_001.fastq.gz'
     output:
         directory("irmaOut/{sample}_irmaOut")
-    shell:
-        "sudo ~/flu-amd/IRMA ibv {input.r1} {input.r2} {output}"
+    run:
+        shell("~/flu-amd/IRMA FLU {input.r1} {input.r2} {output}")
