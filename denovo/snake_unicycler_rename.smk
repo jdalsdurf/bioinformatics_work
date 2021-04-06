@@ -4,23 +4,23 @@ print("Starting Unicycler rename workflow")
 
 rule all:
     input:
-        expand("unicyclerOut/results/{sample}_assembly.fasta", sample = config["samples"])
+        expand("UnicyclerResult/results/{sample}_assembly.fasta", sample = config["samples"])
 
 #### gather the spades output into one folder
 
 rule gather:
 	input:
-		gather="unicyclerOut/{sample}_unicycler/{sample}_assembly.fasta"
+		gather="UnicyclerResult/{sample}/{sample}_assembly.fasta"
 	output:
-		gather="unicyclerOut/results/{sample}_assembly.fasta"
+		gather="UnicyclerResult/results/{sample}_assembly.fasta"
 	shell:
 		"cp {input.gather} {output.gather}"
 
 #### renaming the spades output
 rule rename:
 	input:
-		rename="unicyclerOut/{sample}_unicycler/assembly.fasta"
+		rename="UnicyclerResult/{sample}/assembly.fasta"
 	output:
-		rename="unicyclerOut/{sample}_unicycler/{sample}_assembly.fasta"
+		rename="UnicyclerResult/{sample}/{sample}_assembly.fasta"
 	shell:
 		"mv {input.rename} {output.rename}"

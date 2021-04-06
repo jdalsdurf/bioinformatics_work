@@ -29,4 +29,4 @@ rule irma_siv:
     output:
         directory("octoflu_out/{sample}_octofluOUT")
     run:
-        shell("octoFLU.sh {input.r1}")
+        shell("~/octoFLU/octoFLU.sh {input.r1}")
