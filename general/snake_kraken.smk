@@ -21,17 +21,17 @@ print("Starting kraken2 workflow")
 
 rule all:
     input:
-        expand("kraken_subset/{sample}_krakenSubset.fasta", sample = config["samples"])
+        expand("kraken_subset/{sample}_mxBovoc_krakenSubset.fasta", sample = config["samples"])
 
 rule kraken subset:
 	input:
 		fa = lambda wildcards: config["samples"][wildcards.sample],
 		kf = "kraken/{sample}.kraken",
 	params:
-		tax = "28903",
+		tax = "386891",
 		report = "report_kraken/{sample}.report.txt"
 	output:
-		"kraken_subset/{sample}_krakenSubset.fasta"
+		"kraken_subset/{sample}_mxBovoc_krakenSubset.fasta"
 	shell:
 		"~/kraken2db/KrakenTools/extract_kraken_reads.py -k {input.kf} -s {input.fa} -o {output} -t {params.tax} --include-children -r {params.report} "
 
@@ -42,10 +42,11 @@ rule kraken2:
         k = "kraken/{sample}.kraken",
         r = "report_kraken/{sample}.report.txt",
     shell:
-        "kraken2 --use-names --db ~/kraken2db/ --report {output.r} {input} > {output.k}"
+        "kraken2 --use-names --db ~/kraken2db/ --threads 32 --report {output.r} {input} > {output.k}"
 
 ### avibacterium 728
 ### S.suis 1307
 ### reovirus 38170
 ### h.parasuis 738
 ### mycoplasma bovis 28903
+### Moraxella bovoculi 386891 extension _mxBovoc
