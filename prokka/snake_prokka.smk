@@ -33,7 +33,7 @@ rule prokka:
         name = "{sample}_prokkaOut",
         dir = "prokka/{sample}_prokkaOut"
     shell:
-        "prokka --outdir {params.dir} --prefix {params.name} --centre X {input} --force"
+        "prokka --outdir {params.dir} --genus Moraxella --prefix {params.name} --centre X {input} --force"
 
 rule gather:
 	input:
@@ -42,3 +42,5 @@ rule gather:
 		gather="prokka/prokkaResults/{sample}.gff"
 	shell:
 		"cp {input.gather} {output.gather}"
+
+### genus Mycoplasma
