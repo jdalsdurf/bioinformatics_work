@@ -33,7 +33,7 @@ rule prokka:
         name = "{sample}_prokkaOut",
         dir = "prokka/{sample}_prokkaOut"
     shell:
-        "prokka --outdir {params.dir} --genus Moraxella --prefix {params.name} --centre X {input} --force"
+        "prokka --outdir {params.dir} --genus Salmonella --prefix {params.name} --centre X {input} --force"
 
 rule gather:
 	input:

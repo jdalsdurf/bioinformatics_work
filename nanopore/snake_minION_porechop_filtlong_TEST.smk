@@ -34,7 +34,7 @@ with open("config_porechop.yaml","w") as handle:
 configfile: "config_porechop.yaml"
 rule all:
     input:
-        expand("porechop_out/{sample}_porechopOut.fastq", sample = config["samples"])
+        expand("filtlong_out/{sample}_clean.fastq.gz", sample = config["samples"])
 
 rule porechop:
     input:
@@ -47,3 +47,13 @@ rule porechop:
 
     shell:
         "porechop -i {input} -o {output.name} -t 32 --barcode_threshold 85 --require_two_barcodes"
+
+rule filtlong:
+    input:
+        "porechop_out/{sample}_porechopOut.fastq"
+    output:
+        name="filtlong_out/{sample}_clean.fastq.gz"
+    conda:
+        "filtlong_env.yaml"
+    shell:
+        "filtlong --min_length 1000 --keep_percent 95 {input} | gzip > {output.name}"
