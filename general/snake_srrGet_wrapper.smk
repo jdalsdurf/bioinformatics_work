@@ -11,12 +11,12 @@ configfile: "config_srrGet.yaml"
 
 rule all:
     input:
-        expand("data/{accession}_{RF}.fastq", accession = config["SRR"], RF=["1", "2"])
+        expand("raw_reads/{accession}_{RF}.fastq", accession = config["SRR"], RF=["1", "2"])
 rule get_fastq_pe:
     output:
         # the wildcard name must be accession, pointoing to an SRA number
-        "data/{accession}_1.fastq",
-        "data/{accession}_2.fastq"
+        "raw_reads/{accession}_1.fastq",
+        "raw_reads/{accession}_2.fastq"
     params:
         # optional extra arguments
         extra=""
