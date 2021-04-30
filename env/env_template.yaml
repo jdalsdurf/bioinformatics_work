@@ -1,0 +1,7 @@
+name: porechop ###### name of environment
+channels:
+  - bioconda      ########## some channels
+  - conda-forge
+  - defaults
+dependencies:     #### names of programs
+  - filtlong
