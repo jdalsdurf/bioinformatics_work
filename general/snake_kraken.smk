@@ -4,11 +4,11 @@ import yaml
 
 file_list = []
 ### location assumes that data is in kraken_in/ folder which is output of SPADES snake workflow
-for entry in os.scandir("kraken_in/"):
+for entry in os.scandir("medakaOut/results/"):
     if entry.is_file():
         file_list.append(entry.name)
 #### this tells where data is that will be used for dictionary
-config_dict = {"samples":{i.split(".")[0]:"kraken_in/"+i for i in file_list}}
+config_dict = {"samples":{i.split(".")[0]:"medakaOut/results/"+i for i in file_list}}
 
 with open("config_kraken.yaml","w") as handle:
     yaml.dump(config_dict,handle)
@@ -21,28 +21,31 @@ print("Starting kraken2 workflow")
 
 rule all:
     input:
-        expand("kraken_subset/{sample}_mxBovoc_krakenSubset.fasta", sample = config["samples"])
+        expand("kraken_subset/{sample}_ssuis_krakenSubset.fasta", sample = config["samples"])
 
 rule kraken subset:
 	input:
 		fa = lambda wildcards: config["samples"][wildcards.sample],
-		kf = "kraken/{sample}.kraken",
+		kf = "kraken/{sample}.kraken.txt",
 	params:
-		tax = "386891",
+		tax = "1307",
 		report = "report_kraken/{sample}.report.txt"
 	output:
-		"kraken_subset/{sample}_mxBovoc_krakenSubset.fasta"
+		"kraken_subset/{sample}_ssuis_krakenSubset.fasta"
 	shell:
-		"~/kraken2db/KrakenTools/extract_kraken_reads.py -k {input.kf} -s {input.fa} -o {output} -t {params.tax} --include-children -r {params.report} "
+		"/mnt/s/bioinformatics/databases/kraken2/KrakenTools/extract_kraken_reads.py -k {input.kf} -s {input.fa} -o {output} -t {params.tax} --include-children -r {params.report} "
 
 rule kraken2:
     input:
         lambda wildcards: config["samples"][wildcards.sample]
     output:
-        k = "kraken/{sample}.kraken",
+        k = "kraken/{sample}.kraken.txt",
         r = "report_kraken/{sample}.report.txt",
+
+    conda:
+        "kraken2_env.yaml"
     shell:
-        "kraken2 --use-names --db ~/kraken2db/ --threads 32 --report {output.r} {input} > {output.k}"
+        "kraken2 --use-names --db /mnt/s/bioinformatics/databases/kraken2/ --threads 32 --report {output.r} {input} > {output.k}"
 
 ### avibacterium 728
 ### S.suis 1307

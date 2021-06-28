@@ -29,6 +29,8 @@ rule prokka:
         lambda wildcards: config["samples"][wildcards.sample]
     output:
         "prokka/{sample}_prokkaOut/{sample}_prokkaOut.gff"
+    conda:
+        "/mnt/c/Users/jalsdurf/github/bioinformatics_work/env/prokka_env.yaml"
     params:
         name = "{sample}_prokkaOut",
         dir = "prokka/{sample}_prokkaOut"

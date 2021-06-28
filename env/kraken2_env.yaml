@@ -1,0 +1,7 @@
+name: kraken2 ###### name of environment
+channels:
+  - bioconda      ########## some channels
+  - conda-forge
+  - defaults
+dependencies:     #### names of programs
+  - kraken2

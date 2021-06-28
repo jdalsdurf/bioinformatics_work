@@ -29,5 +29,7 @@ rule spades:
         lambda wildcards: config["samples"][wildcards.sample]
     output:
         directory("spadesOut/{sample}_spades")
+    conda:
+        "spades_env.yaml"
     shell:
-        "spades.py --sc --iontorrent --careful -k 21,33,55,77,99,127 -s {input} -o {output}"
+        "spades.py --careful -s {input} -o {output}"
