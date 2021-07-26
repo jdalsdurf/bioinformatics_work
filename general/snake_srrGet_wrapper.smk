@@ -22,4 +22,4 @@ rule get_fastq_pe:
         extra=""
     threads: 32
     wrapper:
-        "0.73.0/bio/sra-tools/fasterq-dump"
+        "0.77.0/bio/sra-tools/fasterq-dump"

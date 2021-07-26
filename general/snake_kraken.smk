@@ -4,11 +4,11 @@ import yaml
 
 file_list = []
 ### location assumes that data is in kraken_in/ folder which is output of SPADES snake workflow
-for entry in os.scandir("medakaOut/results/"):
+for entry in os.scandir("spadesOut/results/"):
     if entry.is_file():
         file_list.append(entry.name)
 #### this tells where data is that will be used for dictionary
-config_dict = {"samples":{i.split(".")[0]:"medakaOut/results/"+i for i in file_list}}
+config_dict = {"samples":{i.split(".")[0]:"spadesOut/results/"+i for i in file_list}}
 
 with open("config_kraken.yaml","w") as handle:
     yaml.dump(config_dict,handle)
@@ -21,7 +21,10 @@ print("Starting kraken2 workflow")
 
 rule all:
     input:
-        expand("kraken_subset/{sample}_ssuis_krakenSubset.fasta", sample = config["samples"])
+        expand("kraken_subset/{sample}_ssuis_krakenSubset.fasta", sample = config["samples"]),
+        expand("kraken/{sample}.kraken.txt", sample = config["samples"]),
+        expand("report_kraken/{sample}.report.txt", sample = config["samples"]),
+        expand("kraken_classified/{sample}_classified.fasta", sample = config["samples"]),
 
 rule kraken subset:
 	input:
@@ -41,11 +44,12 @@ rule kraken2:
     output:
         k = "kraken/{sample}.kraken.txt",
         r = "report_kraken/{sample}.report.txt",
+        cl = "kraken_classified/{sample}_classified.fasta"
 
     conda:
         "kraken2_env.yaml"
     shell:
-        "kraken2 --use-names --db /mnt/s/bioinformatics/databases/kraken2/ --threads 32 --report {output.r} {input} > {output.k}"
+        "kraken2 --use-names --db /mnt/s/bioinformatics/databases/kraken2/ --threads 8 --quick --memory-mapping --classified-out {output.cl} --report {output.r} {input} > {output.k}"
 
 ### avibacterium 728
 ### S.suis 1307
