@@ -1,0 +1,1 @@
+guppy_basecaller -i ./fast5_pass/barcode01 -s barcoding/ --flowcell FLO-FLG001 --kit SQK-RBK004 -x "cuda:all" --compress_fastq
