@@ -29,5 +29,7 @@ rule bwa_map:
         ref="s_suis_reference.fasta"
     output:
         "mapped_reads/{sample}_minimap2.bam"
+    conda:
+        "minimap2_env.yaml"
     shell:
         "minimap2 -ax asm5 {params.ref} {input} | samtools view -hbSF - > {output}"
