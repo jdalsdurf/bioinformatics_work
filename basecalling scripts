@@ -1,0 +1,4 @@
+guppy_basecaller -i ./fast5_pass/barcode01 -s barcoding/ --flowcell FLO-FLG001 --kit SQK-RBK004 -x "cuda:all" --compress_fastq
+
+### command for 11OCT test
+~/ont-guppy/bin/guppy_basecaller -i 20211006/ -s 20211006/barcoding_11OCT --recursive --flowcell FLO-FLG001 --kit SQK-RBK004 -x 'auto' --compress_fastq
