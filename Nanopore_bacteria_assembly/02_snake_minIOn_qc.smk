@@ -22,7 +22,7 @@ rule all:
 
 rule filtlong:
     input:
-        "filterlong_in/{sample}.fastq"
+        "filterlong_in/{sample}.fastq.gz"
     output:
         name="filterlong_out/{sample}_clean.fastq.gz"
     conda:
