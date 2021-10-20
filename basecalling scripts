@@ -1,4 +1,11 @@
 guppy_basecaller -i ./fast5_pass/barcode01 -s barcoding/ --flowcell FLO-FLG001 --kit SQK-RBK004 -x "cuda:all" --compress_fastq
 
 ### command for 11OCT test
-~/ont-guppy/bin/guppy_basecaller -i 20211006/ -s 20211006/barcoding_11OCT --recursive --flowcell FLO-FLG001 --kit SQK-RBK004 -x 'auto' --compress_fastq
+~/ont-guppy/bin/guppy_basecaller -i 20211006_desktop/ -s 20211006_desktop/barcoding_11OCT --recursive --flowcell FLO-FLG001 --kit SQK-RBK004 -x 'auto' --compress_fastq
+
+
+~/ont-guppy/bin/guppy_basecaller -i ./20211014/ -s ./20211014_basecalling --recursive --flowcell FLO-FLG001 --kit SQK-RBK004 -x 'cuda:all' --compress_fastq
+
+
+### basecalling 18 OCT2021.  NOTE that this does not demultiplex
+~/ont-guppy/bin/guppy_basecaller -c dna_r9.4.1_450bps_fast.cfg -i ./20211015/ -s ./20211015_basecalling/ -x 'auto' --recursive --compress_fastq --barcoding_kit SQK-RBK004
