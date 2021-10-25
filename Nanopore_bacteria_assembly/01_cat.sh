@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 
 # This file should be in the fastq file copied from the nanopore run.
 # Saved in a folder on desktop

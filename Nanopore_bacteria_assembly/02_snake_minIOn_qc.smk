@@ -8,7 +8,7 @@ for entry in os.scandir("filterlong_in/"):
     if entry.is_file():
         file_list.append(entry.name)
 #### this tells where data is that will be used for dictionary
-config_dict = {"samples":{i.split(".")[0]:"filterlong_in/"+i for i in file_list}}
+config_dict = {"samples":{i.split(".fastq")[0]:"filterlong_in/"+i for i in file_list}}
 
 with open("config_filterlong.yaml","w") as handle:
     yaml.dump(config_dict,handle)
