@@ -18,25 +18,26 @@ with open("config_roary.yaml","w") as handle:
 
 configfile: "config_roary.yaml"
 
-print("Starting Roary analysis workflow")
+print("Starting fasttree analysis workflow")
 
 rule all:
     input:
-        "roary_results/core_gene_alignment.aln"
+        "roary_results/core_gene_alignment.newick"
 
-rule run_roary:
+rule run_fasttree:
  input:
-  expand("roary_gff/{sample}.gff", sample = config["samples"])
- output:
   "roary_results/core_gene_alignment.aln"
+ output:
+  "roary_results/core_gene_alignment.newick"
  params:
   outdir = "roary_results"
+ conda:
+  "fasttree_env.yaml"
+
  shell:
   """
-  roary -f {params.outdir} -p 8 -e -n -v {input} && touch {output}
+  fasttree -nt -gtr {input} > {output}
   """
-  conda:
-  "roary_env.yaml"
 # rule fast_tree:
 #  input:
 #   aln = "roary_results/core_gene_alignment.aln"
