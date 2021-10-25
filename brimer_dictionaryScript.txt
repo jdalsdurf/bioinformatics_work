@@ -1,0 +1,18 @@
+import os
+import yaml
+
+file_list = []
+
+## loop over data directory
+
+for entry in os.scandir("data/"):
+    if entry.is_file():
+        file_list.append(entry.name)
+
+config_dict = {"names": {i.split("_")[0]:i.split("_")[0] for i in file_list}, \
+            "sample_reads_r1": {i.split("_")[0]: "data/"+i for i in file_list if i.split("_")[3] == "R1"}, \
+            "sample_reads_r2": {i.split("_")[0]: "data/"+i for i in file_list if i.split("_")[3] == "R2"}}
+
+
+with open("config.yaml","w") as handle:
+    yaml.dump(config_dict, handle)
