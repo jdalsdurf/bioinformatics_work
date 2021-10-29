@@ -1,0 +1,21 @@
+import raw illumina reads to {raw_reads} folder
+
+working within the {influenza_bioinformatics} folder, run the following command:
+./flu-amd/IRMA FLU {read_R1.fastq.gz} {read_R2.fastq.gz} {assembly_output}
+
+change directory to {assembly_output} with:
+cd {assembly_output}
+
+rename all fasta files with the case ID with the following command:
+rename 's/^/CT21-0442_/' *
+
+concatenate all fasta files with the following command:
+cat *.fasta > CT21-0442_all.fasta
+
+move to octoFLU folder
+
+activate octoFLU environment:
+conda activate octoflu
+
+run octoFLU script with following command:
+./octoFLU.sh ../{assembly_output}/CT21-0442_all.fasta

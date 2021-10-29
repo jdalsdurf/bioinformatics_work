@@ -28,7 +28,7 @@ rule unicycler_wrapper:
         # R1 and R2 short reads:
         paired = expand(
             "raw_reads/{sample}_{read}.fastq",
-            read=["1", "2"],
+            read=["R1", "R2"],
             allow_missing=True
         )
         # Long reads:
