@@ -1,0 +1,33 @@
+### activate irma environment NOTE, if environment is not created and packages installed, do line 4
+conda activate irma
+
+### create irma environment and install irma packages
+
+conda create -n irma -c conda-forge -c bioconda -c r blast smof mafft fasttree dendropy r mamba
+
+### activate irma environment
+
+conda activate irma_IBV
+
+### install snakemake
+mamba install -c conda-forge -c bioconda snakemake
+
+### ensure follwing folders are in working directory /flu-amd  /octoFLU  NOTE, octoFLU has a custom script {03_octoflu_loop.sh}
+
+### run irma snakefile
+
+snakemake -s 01_snake_IRMA_SIV_illumina.smk --cores 2 -j
+
+### run gather and rename snakefile
+
+snakemake -s 02_snake_IRMA_SIV_illumina.smk --cores 2 -j
+
+### change directory to octoFLU
+
+cd ./octoFLU
+
+### run octoflu script
+
+bash ./03_octoflu_loop.sh
+
+### view results
