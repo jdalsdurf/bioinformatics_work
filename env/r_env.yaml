@@ -1,0 +1,8 @@
+name: r ###### name of environment
+channels:
+  - bioconda      ########## some channels
+  - conda-forge
+  - defaults
+  - r
+dependencies:     #### names of programs
+  - r

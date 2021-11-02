@@ -1,0 +1,11 @@
+#### copy flu and octoflu files from Sequencing/bioinformatics/databases to working directory
+
+### install r-base
+sudo apt install r-base
+
+### run IRMA snake files
+snakemake -s {01_snakefile} --cores 2 -j
+
+### run rename script
+
+snakemake

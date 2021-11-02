@@ -1,0 +1,18 @@
+### create spades environment
+conda create -n spades -c conda-forge -c bioconda spades
+
+### install snakemake via mamba in spades environment
+conda activate spades
+mamba install -c conda-forge -c bioconda snakemake
+
+### copy spades_training script and snake_spades.smk and spades_env.yaml to working folder
+
+### run spades on one file with spades.sh script
+bash spades.sh
+
+#install bandage and view output with bandage
+conda install -c conda-forge -c bioconda bandage
+Bandage
+
+### run snak_spades.smk on all files in raw_reads folder
+snakemake -s snake_spades.smk --cores 1 -j --use-conda
