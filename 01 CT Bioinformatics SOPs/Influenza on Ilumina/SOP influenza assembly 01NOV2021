@@ -1,0 +1,49 @@
+#######################################
+### SOP for Influenza Assesmbly	 	###
+### Date: 01NOV2021					###
+### Author: JDA						###
+### {} are file names. do not		###
+### include {} into commands 		###
+#######################################
+
+#### copy or download from GIT the current influenza assembly folder into a working folder on Linux desktop.  Name working folder {Influenza_bioinformatics}
+
+###  if starting fresh in Linux/Ubuntu
+	### create irma environment and install irma packages
+		### open terminal at {/Influenza_bioinformatics} or change directory to {/Influenza_bioinformatics}
+
+### create irma environment and install irma and octoFLU dependency packages
+
+conda create -n irma -c conda-forge -c bioconda -c r blast smof mafft fasttree dendropy r mamba
+
+### activate irma environment
+conda activate irma
+
+### install snakemake
+mamba install -c conda-forge -c bioconda snakemake
+
+### ensure follwing folders are in working directory /flu-amd  /octoFLU  NOTE, octoFLU should have a custom script {03_octoflu_loop.sh} located in folder, if not. copy {03_octoflu_loop.sh} into {/octoFLU} folder
+
+#########################################
+###	Running Influenza_bioinformatics	#
+#########################################
+
+### 01  IRMA assembly of Illumina SIV	###
+
+snakemake -s 01_snake_IRMA_SIV_illumina.smk --cores 2 -j
+
+### run gather and rename snakefile	###
+
+snakemake -s 02_snake_IRMA_SIV_illumina.smk --cores 2 -j
+
+### change directory to octoFLU	###
+
+cd ./octoFLU
+
+### run octoflu script	###
+
+bash ./03_octoflu_loop.sh
+
+### view results	###
+
+############## Should  import Segment Fasta files into Bionumerics
