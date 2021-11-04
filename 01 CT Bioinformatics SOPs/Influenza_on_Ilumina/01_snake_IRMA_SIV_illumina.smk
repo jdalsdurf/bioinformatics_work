@@ -36,22 +36,3 @@ rule irma_IBV:
         "r_env.yaml"
     shell:
         "sudo ./flu-amd/IRMA FLU {input.r1} {input.r2} {output}"
-
-
-# rule gather:
-#     input:
-#         expand("irmaOut_SIV/{sample}_irmaOut/amended_consensus/{sample}_irmaOut_{num}.fa", sample = config["samples"], num=["1", "2", "3", "4", "5", "6", "7", "8"])
-#     output:
-#         "irmaOut_SIV/fasta_files/{sample}.fasta"
-#     shell:
-#         "cat {input} > {output}"
-#
-# rule octoflu:
-#     input:
-#         "irmaOut_SIV/fasta_files/{sample}.fasta"
-#     output:
-#         directory("octoFLU/{sample}_Output")
-#     conda:
-#         "octoFLU_env.yaml"
-#     shell:
-#         "./octoFLU/octoFLU.sh {input}"
