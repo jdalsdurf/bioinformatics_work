@@ -60,3 +60,8 @@ bash ./03_octoflu_loop.sh
 ### view results	###
 
 ############## Should  import Segment Fasta files into Bionumerics
+
+### editing fasta file for import into Bionumerics
+remove >A_ and replace with blank in Notepad++
+remove _H1 with regular expression in NOtepad++ with:  \_.*$  *** ensure regular expression is checked option
+use import template
