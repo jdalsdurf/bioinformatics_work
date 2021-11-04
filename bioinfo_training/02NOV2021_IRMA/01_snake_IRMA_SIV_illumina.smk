@@ -33,7 +33,7 @@ rule irma_IBV:
     output:
         directory("irmaOut_SIV/{sample}_irmaOut")
     shell:
-        "sudo ~/flu-amd/IRMA FLU {input.r1} {input.r2} {output}"
+        "sudo ./flu-amd/IRMA FLU {input.r1} {input.r2} {output}"
 
 
 # rule gather:

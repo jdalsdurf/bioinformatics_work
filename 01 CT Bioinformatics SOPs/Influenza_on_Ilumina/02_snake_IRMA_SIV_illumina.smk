@@ -26,7 +26,7 @@ rule all:
         expand("irmaOut_SIV/fasta_files/{sample}.fasta", sample = config["samples"]),
         # expand("octoFLU/{sample}_Output", sample = config["samples"])
 
-# rule irma_IBV:
+# rule irma_SIV:
 #     input:
 #         r1 = 'raw_reads/{sample}_L001_R1_001.fastq.gz',
 #         r2 = 'raw_reads/{sample}_L001_R2_001.fastq.gz'

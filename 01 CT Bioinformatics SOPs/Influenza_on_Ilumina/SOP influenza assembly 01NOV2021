@@ -12,15 +12,23 @@
 	### create irma environment and install irma packages
 		### open terminal at {/Influenza_bioinformatics} or change directory to {/Influenza_bioinformatics}
 
-### create irma environment and install irma and octoFLU dependency packages
+### create irma environment and install irma and install mamba
 
-conda create -n irma -c conda-forge -c bioconda -c r blast smof mafft fasttree dendropy r mamba
+conda create -n irma -c conda-forge -c bioconda mamba
 
-### activate irma environment
 conda activate irma
 
-### install snakemake
+### install snakemake package
 mamba install -c conda-forge -c bioconda snakemake
+
+#### install R
+sudo apt-get install r-base-core
+
+conda deactivate
+
+#### create ctoflu environment and install packages
+conda create -n octoflu -c conda-forge -c bioconda blast smof mafft fasttree dendropy
+
 
 ### ensure follwing folders are in working directory /flu-amd  /octoFLU  NOTE, octoFLU should have a custom script {03_octoflu_loop.sh} located in folder, if not. copy {03_octoflu_loop.sh} into {/octoFLU} folder
 
@@ -29,15 +37,20 @@ mamba install -c conda-forge -c bioconda snakemake
 #########################################
 
 ### 01  IRMA assembly of Illumina SIV	###
-
+conda activate irma
 snakemake -s 01_snake_IRMA_SIV_illumina.smk --cores 2 -j
 
 ### run gather and rename snakefile	###
 
 snakemake -s 02_snake_IRMA_SIV_illumina.smk --cores 2 -j
 
-### change directory to octoFLU	###
+### change environment and directory to octoFLU	###
+### exit out of irma environment
+conda deactivate
 
+### activate octoflu environment
+conda activate octoFLU
+### change directory to octoflu
 cd ./octoFLU
 
 ### run octoflu script	###
