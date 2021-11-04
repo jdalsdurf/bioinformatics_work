@@ -32,6 +32,8 @@ rule irma_IBV:
         r2 = 'raw_reads/{sample}_L001_R2_001.fastq.gz'
     output:
         directory("irmaOut_SIV/{sample}_irmaOut")
+    conda:
+        "r_env.yaml"
     shell:
         "sudo ./flu-amd/IRMA FLU {input.r1} {input.r2} {output}"
 

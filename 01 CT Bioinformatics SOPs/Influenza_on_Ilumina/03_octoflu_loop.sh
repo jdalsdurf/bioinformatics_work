@@ -1,6 +1,6 @@
 #!/bin/bash
-cp -r ../irmaOut_SIV/fasta_files/ ./
+cp -r ../irmaOut_SIV/merged/ ./
 
-for i in ./fasta_files/*.fasta ; do
+for i in ./merged/*.fasta ; do
         ./octoFLU.sh "$i"
 done
