@@ -28,6 +28,7 @@ rule abricate_all:
         expand("abricateResults/{sample}_abricate_card.csv", sample = config["samples"]),
         expand("abricateResults/{sample}_abricate_megares.csv", sample = config["samples"]),
         expand("abricateResults/{sample}_abricate_ssuis.csv", sample = config["samples"]),
+        expand("abricateResults/{sample}_abricate_vag.csv", sample = config["samples"]),
     shell:
         "cat {input} > abricate_all.csv"
 
@@ -43,7 +44,8 @@ rule run_all:
         card="card",
         megares="megares",
         csv="csv",
-        ssuis="ssuis"
+        ssuis="ssuis",
+        vag="vag"
 
     output:
         argannot = "abricateResults/{sample}_abricate_argannot.csv",
@@ -53,6 +55,7 @@ rule run_all:
         card="abricateResults/{sample}_abricate_card.csv",
         megares="abricateResults/{sample}_abricate_megares.csv",
         ssuis="abricateResults/{sample}_abricate_ssuis.csv",
+        vag="abricateResults/{sample}_abricate_vag.csv",
 
     shell:
         """
@@ -63,5 +66,7 @@ rule run_all:
         abricate {input} --csv --db {params.card} > {output.card}
         abricate {input} --csv --db {params.megares} > {output.megares}
         abricate {input} --csv --db {params.ssuis} > {output.ssuis}
+        abricate {input} --csv --db {params.vag} > {output.vag}
+
 
         """
