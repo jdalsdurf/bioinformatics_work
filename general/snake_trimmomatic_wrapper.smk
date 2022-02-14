@@ -44,4 +44,4 @@ rule trimmomatic_pe:
     threads:
         32
     wrapper:
-        "0.78.0/bio/trimmomatic/pe"
+        "v1.1.0/bio/trimmomatic/pe"
