@@ -1,0 +1,7 @@
+### blast
+
+## db location
+/media/Sequencing/bioinformatics/databases/blastdb
+
+### example
+blastn -query CT22-0342-1_strep_bc01_all_clean_medaka_consensus.fasta -db /media/Sequencing/bioinformatics/databases/blastdb/16S_ribosomal_RNA -out CT22-0342-1_strep
