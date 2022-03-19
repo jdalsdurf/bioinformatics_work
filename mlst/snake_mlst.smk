@@ -33,7 +33,7 @@ rule mlst:
     log:
         "mlst_results/logs/{sample}_mlst.log"
     conda:
-        "/mnt/c/Users/jalsdurf/github/bioinformatics_work/env/mlst_env.yaml"
+        "/home/jake/github/bioinformatics_work/env/mlst_env.yaml"
     shell:
         """
 		mlst {input} --csv > {output.mlst}
