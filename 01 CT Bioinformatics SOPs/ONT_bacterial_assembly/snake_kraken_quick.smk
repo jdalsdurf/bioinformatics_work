@@ -49,7 +49,7 @@ rule kraken2:
     # conda:
     #     "kraken2_env.yaml"
     shell:
-        "kraken2 --use-names --db /media/Sequencing/bioinformatics/databases/kraken2/ --threads 60 --memory-mapping --classified-out {output.cl} --report {output.r} {input} > {output.k}"
+        "kraken2 --use-names --db /media/Sequencing/bioinformatics/databases/kraken2/ --threads 60 --memory-mapping --quick --classified-out {output.cl} --report {output.r} {input} > {output.k}"
 ###
 #kraken2 --use-names --db /run/user/1000/gvfs/afp-volume:host=RNDNAS.local,user=jalsdurf,volume=Sequencing/bioinformatics/databases/kraken2 --threads 8 --quick --memory-mapping --classified-out {output.cl} --report {output.r} {input} > {output.k}
 ###

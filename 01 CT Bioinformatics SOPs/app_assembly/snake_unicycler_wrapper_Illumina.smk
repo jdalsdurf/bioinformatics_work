@@ -21,9 +21,9 @@ print("Starting Unicycler analysis workflow")
 
 rule all:
     input:
-        #expand("UnicyclerResult/{sample}/assembly.fasta", sample = config["samples"])
-        expand("UnicyclerResult/results/{sample}_assembly.fasta", sample = config["samples"]),
-        expand("UnicyclerResult/results/{sample}.gfa", sample = config["samples"])
+        expand("UnicyclerResult/{sample}/assembly.fasta", sample = config["samples"])
+        #expand("UnicyclerResult/results/{sample}_assembly.fasta", sample = config["samples"]),
+        #expand("UnicyclerResult/results/{sample}.gfa", sample = config["samples"])
 
 rule unicycler_wrapper:
     input:
@@ -34,7 +34,7 @@ rule unicycler_wrapper:
             allow_missing=True
         ),
         # Long reads:
-        long = "nanopore/{sample}_ont.fastq.gz"
+        #long = "nanopore/{sample}_ont.fastq.gz"
         # Unpaired reads:
         # unpaired = reads/{sample}.fq.gz
     output:
@@ -46,34 +46,34 @@ rule unicycler_wrapper:
     wrapper:
         "v1.3.1/bio/unicycler"
 
-rule rename:
-	input:
-		rename="UnicyclerResult/{sample}/assembly.fasta"
-	output:
-		rename="UnicyclerResult/{sample}/{sample}_assembly.fasta"
-	shell:
-		"mv {input.rename} {output.rename}"
-
-rule gather:
-	input:
-		gather="UnicyclerResult/{sample}/{sample}_assembly.fasta"
-	output:
-		gather="UnicyclerResult/results/{sample}_assembly.fasta"
-	shell:
-		"cp {input.gather} {output.gather}"
-
-rule rename_gfa:
-	input:
-		rename="UnicyclerResult/{sample}/assembly.gfa"
-	output:
-		rename="UnicyclerResult/{sample}/{sample}.gfa"
-	shell:
-		"mv {input.rename} {output.rename}"
-
-rule gather_gfa:
-	input:
-		gather="UnicyclerResult/{sample}/{sample}.gfa"
-	output:
-		gather="UnicyclerResult/results/{sample}.gfa"
-	shell:
-		"cp {input.gather} {output.gather}"
+# rule rename:
+# 	input:
+# 		rename="UnicyclerResult/{sample}/assembly.fasta"
+# 	output:
+# 		rename="UnicyclerResult/{sample}/{sample}_assembly.fasta"
+# 	shell:
+# 		"mv {input.rename} {output.rename}"
+#
+# rule gather:
+# 	input:
+# 		gather="UnicyclerResult/{sample}/{sample}_assembly.fasta"
+# 	output:
+# 		gather="UnicyclerResult/results/{sample}_assembly.fasta"
+# 	shell:
+# 		"cp {input.gather} {output.gather}"
+#
+# rule rename_gfa:
+# 	input:
+# 		rename="UnicyclerResult/{sample}/assembly.gfa"
+# 	output:
+# 		rename="UnicyclerResult/{sample}/{sample}.gfa"
+# 	shell:
+# 		"mv {input.rename} {output.rename}"
+#
+# rule gather_gfa:
+# 	input:
+# 		gather="UnicyclerResult/{sample}/{sample}.gfa"
+# 	output:
+# 		gather="UnicyclerResult/results/{sample}.gfa"
+# 	shell:
+# 		"cp {input.gather} {output.gather}"

@@ -30,12 +30,12 @@ rule prokka:
     output:
         "prokka/{sample}_prokkaOut/{sample}_prokkaOut.gff"
     conda:
-        "/mnt/c/Users/jalsdurf/github/bioinformatics_work/env/prokka_env.yaml"
+        "/home/jake/github/bioinformatics_work/env/prokka_env.yaml"
     params:
         name = "{sample}_prokkaOut",
         dir = "prokka/{sample}_prokkaOut"
     shell:
-        "prokka --outdir {params.dir} --genus Salmonella --prefix {params.name} --centre X {input} --force"
+        "prokka --outdir {params.dir} --genus Moraxella --prefix {params.name} --centre X {input} --force"
 
 rule gather:
 	input:
