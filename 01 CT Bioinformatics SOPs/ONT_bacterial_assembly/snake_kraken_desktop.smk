@@ -22,9 +22,9 @@ print("Starting kraken2 workflow")
 rule all:
     input:
 #        expand("kraken_subset/{sample}_ssuis_krakenSubset.fasta", sample = config["samples"]),
-        expand("kraken/{sample}.kraken.txt", sample = config["samples"]),
-        expand("report_kraken/{sample}.report.txt", sample = config["samples"]),
-        expand("kraken_classified/{sample}_classified.fasta", sample = config["samples"]),
+        expand("kraken_full/{sample}.kraken.txt", sample = config["samples"]),
+        expand("report_kraken_full/{sample}.report.txt", sample = config["samples"]),
+        expand("kraken_classified_full/{sample}_classified.fasta", sample = config["samples"]),
 
 # rule kraken subset:
 # 	input:
@@ -42,9 +42,9 @@ rule kraken2:
     input:
         lambda wildcards: config["samples"][wildcards.sample]
     output:
-        k = "kraken/{sample}.kraken.txt",
-        r = "report_kraken/{sample}.report.txt",
-        cl = "kraken_classified/{sample}_classified.fasta"
+        k = "kraken_full/{sample}.kraken.txt",
+        r = "report_kraken_full/{sample}.report.txt",
+        cl = "kraken_classified_full/{sample}_classified.fasta"
 
     # conda:
     #     "kraken2_env.yaml"
