@@ -1,5 +1,5 @@
 #### transfering data from gridION to server via scp
-ssh grid@192.168.112.53
+ssh grid@10.1.16.46
 ## password: grid
 
-scp -r grid@192.168.112.53:
+scp -r grid@10.1.16.46:
