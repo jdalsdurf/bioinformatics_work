@@ -32,5 +32,4 @@ rule flye:
     conda:
         "flye_env.yaml"
     shell:
-        "flye --nano-raw {input} --out-dir {output} --threads 8 --genome-size 1m"
-		
+        "flye --nano-raw {input} --out-dir {output} --threads 24 --genome-size 1m"
