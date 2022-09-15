@@ -3,3 +3,12 @@ ssh grid@10.1.16.46
 ## password: grid
 
 scp -r grid@10.1.16.46:
+
+
+#### copy with rsync
+rsync -rv /media/nfs/Nanopore/20220912_assembly/ ./
+
+
+### SSH into desktop
+
+ssh jake@10.1.16.38
