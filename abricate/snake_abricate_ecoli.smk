@@ -21,12 +21,6 @@ print("Starting abricate workflow")
 
 rule abricate_all:
     input:
-        expand("abricateResults/{sample}_abricate_argannot.csv", sample = config["samples"]),
-        expand("abricateResults/{sample}_abricate_ncbi.csv", sample = config["samples"]),
-        expand("abricateResults/{sample}_abricate_resfinder.csv", sample = config["samples"]),
-        expand("abricateResults/{sample}_abricate_vfdb.csv", sample = config["samples"]),
-        expand("abricateResults/{sample}_abricate_card.csv", sample = config["samples"]),
-        expand("abricateResults/{sample}_abricate_megares.csv", sample = config["samples"]),
         expand("abricateResults/{sample}_abricate_ecoli_vf.csv", sample = config["samples"]),
 
     shell:
@@ -57,11 +51,5 @@ rule run_all:
 
     shell:
         """
-        abricate {input} --csv --db {params.argannot} > {output.argannot}
-        abricate {input} --csv --db {params.ncbi} > {output.ncbi}
-        abricate {input} --csv --db {params.resfinder} > {output.resfinder}
-        abricate {input} --csv --db {params.vfdb} > {output.vfdb}
-        abricate {input} --csv --db {params.card} > {output.card}
-        abricate {input} --csv --db {params.megares} > {output.megares}
         abricate {input} --csv --db {params.ecoli} > {output.ecoli}
         """
