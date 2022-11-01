@@ -5,3 +5,6 @@ channels:
   - defaults
 dependencies:
   - medaka
+  - bcftools
+  - samtools
+  - openssl=1.0

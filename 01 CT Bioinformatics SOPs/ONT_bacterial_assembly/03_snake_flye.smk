@@ -33,3 +33,4 @@ rule flye:
         "flye_env.yaml"
     shell:
         "flye --nano-raw {input} --out-dir {output} --threads 24 --genome-size 1m"
+		

@@ -3,12 +3,12 @@ import os
 import yaml
 
 file_list = []
-### location assumes that data is in kraken_in/ folder which is output of SPADES snake workflow
-for entry in os.scandir("kraken_in/"):
+### location assumes that data is in 01_assembly_results/ folder which is output of SPADES snake workflow
+for entry in os.scandir("01_assembly_results/"):
     if entry.is_file():
         file_list.append(entry.name)
 #### this tells where data is that will be used for dictionary
-config_dict = {"samples":{i.split(".")[0]:"kraken_in/"+i for i in file_list}}
+config_dict = {"samples":{i.split(".")[0]:"01_assembly_results/"+i for i in file_list}}
 
 with open("config_kraken.yaml","w") as handle:
     yaml.dump(config_dict,handle)

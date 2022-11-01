@@ -21,13 +21,12 @@ print("Starting 16sBlast workflow")
 
 rule all:
     input:
-        expand("kraken_classified/{sample}_classified.fasta", sample = config["samples"]),
+        expand("01_assembly_results/16sBlast/{sample}_16sBlast.txt", sample = config["samples"]),
 
 rule blast:
     input:
         lambda wildcards: config["samples"][wildcards.sample],
     output:
-        16s = "01_assembly_results/16sBlast/{sample}_16sBlast.txt",
+        out = "01_assembly_results/16sBlast/{sample}_16sBlast.txt",
     shell:
-        "blastn -query {input} -db /media/nfs/bioinformatics/databases/16S_ribosomal_RNA/ -num_threads 24 -out {output.16s}"
-        
+        "blastn -query {input} -db /media/nfs/bioinformatics/databases/blastdb/16S_ribosomal_RNA -num_threads 24 -out {output.out}"
