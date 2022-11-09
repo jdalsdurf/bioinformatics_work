@@ -1,0 +1,26 @@
+SOP for installing and running TOXItyper on linux
+####################################################################################################
+#### After initial setup of program, skip the install process and proceed to the analysis part #####
+####################################################################################################
+
+1. in linux environment, create and environment and install snakemake and abricate
+  "mamba create -n toxityper -c conda-forge -c bioconda snakemake abricate"
+
+2. create a working folder for cperf import
+  "mkdir cperf"
+
+3. change directory to "cperf"
+  "cd cperf"
+  clone TOXItyper into working cperf folder
+    "git clone https://github.com/raymondkiu/TOXIper.git"  ### download site might change in future
+
+4.  move "TOXIper.sh" from /bin/ folder to working cperf directory
+ "cp ./TOXIper/bin/TOXIper.sh ./"
+
+#####################################################################################################
+### Analysis portion                                                                              ###
+#####################################################################################################
+
+5. Run TOXIper.sh on a cperf isolate
+"bash TOXIper.sh CT22-xxxx-x.fasta"                         ### output will be in standout
+"bash TOXIper.sh CT22-xxxx-x.fasta > CT22-xxxx-x.txt"       #### output will be in a labeled txt file
