@@ -1,0 +1,37 @@
+SOP for installing ecoli screening
+
+################################################################################
+### after initial install skip to analysis                                  ####
+################################################################################
+
+######### IF ABRICATE IS ALREADY INSTALLED SKIP INSTALL STEP ##################
+
+### create and install abricate
+  "mamba create -n abricate -c conda-forge -c bioconda snakemake abricate"
+
+### create virulence screening DB from https://github.com/pkmitchell/VPECdb
+  "mkdir ecoli_screening"
+  "cd ecoli_screening"
+  "git clone https://github.com/pkmitchell/VPECdb.git"
+  "cp ./VPECdb/VPECdb_abricate.fasta ~/miniconda/env/abricate/db/sequences"   ### copys and renames file into the abricate db folders
+
+### make VPECdb database
+  "cd ~/miniconda/env/abricate/db"
+  "mkdir VPECdb"
+  "makeblastdb -in sequences -title VPECdb -dbtype nucl -hash_index"
+  "mv sequences* ./VPECdb"
+
+############################### Analysis ########################################
+
+### create a working folder for ecoli screening {ecoli_in}
+  "mkdir ecoli_in"
+
+### upload fasta files to ecoli_in folders
+
+### have snake_abricate_ecoli.smk file in directory above ./ecoli_in
+
+### run snakemake
+  "conda activate abricate"
+  "snakemake -s snake_abricate_ecoli.smk --cores 1"
+
+  results should be in a ecoli_abricate_all.csv file 
