@@ -3,24 +3,38 @@ SOP for installing and running TOXItyper on linux
 #### After initial setup of program, skip the install process and proceed to the analysis part #####
 ####################################################################################################
 
-1. in linux environment, create and environment and install snakemake and abricate
-  "mamba create -n toxityper -c conda-forge -c bioconda snakemake abricate"
-
-2. create a working folder for cperf import
+1. ### create a working folder for cperf import
   "mkdir cperf"
 
-3. change directory to "cperf"
+2. ### change directory to "cperf"
   "cd cperf"
   clone TOXItyper into working cperf folder
     "git clone https://github.com/raymondkiu/TOXIper.git"  ### download site might change in future
 
-4.  move "TOXIper.sh" from /bin/ folder to working cperf directory
+3. ### move "TOXIper.sh" from /bin/ folder to working cperf directory
  "cp ./TOXIper/bin/TOXIper.sh ./"
+
+4. ### in linux environment, create and environment and install snakemake and abricate
+   "mamba create -n abricate -c conda-forge -c bioconda snakemake abricate"
+
+5. ### copy {sequences} file from ./TOXIper to abricate and create a databases
+  "cp ./TOXIper/sequences ~/miniconda/env/abricate/db"        ### miniconda file name might change with updates
+  "cd ~/miniconda/env/abricate/db"                            ### moving to abricate database folder
+  "ls -lh"                                                    ### should have a list of database folders and sequences file that was just copied
+
+6. ### make a blast database name has to be {toxinCP} for script to running
+  "mkdir toxinCP"
+  "makeblastdb -in sequences -title toxinCP -dbtype nucl -hash_index"
+  "cp sequences* ./toxinCP"                                   ### moves all sequence files from general db directory to {toxinCP} db
+
+
 
 #####################################################################################################
 ### Analysis portion                                                                              ###
 #####################################################################################################
 
-5. Run TOXIper.sh on a cperf isolate
+Within cperf working directory
+
+  ### Run TOXIper.sh on a cperf isolate
 "bash TOXIper.sh CT22-xxxx-x.fasta"                         ### output will be in standout
 "bash TOXIper.sh CT22-xxxx-x.fasta > CT22-xxxx-x.txt"       #### output will be in a labeled txt file
