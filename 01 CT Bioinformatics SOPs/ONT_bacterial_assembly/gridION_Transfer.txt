@@ -12,3 +12,10 @@ rsync -rv /media/nfs/Nanopore/20220912_assembly/ ./
 ### SSH into desktop
 
 ssh jake@10.1.16.38
+
+################ running commands in background ##############
+&
+
+The background process will continue to write messages to the terminal from which you invoked the command. To suppress the stdout and stderr messages use the following syntax:
+
+command > /dev/null 2>&1 &
