@@ -1,0 +1,8 @@
+#### testing remote blast
+blastn -db nt -remote -max_target_seqs 1 -outfmt '6 qseqid sseqid evalue bitscore sgi sacc staxids sscinames scomnames stitle' -query bc12_all_clean_medaka_consensus.fasta -out bc12_ntRemoteBlast.txt
+
+
+#####
+blastn -db /media/nfs/bioinformatics/databases/blastdb/rotavirus -max_target_seqs 1 -outfmt '6' -query bc12.fasta -out bc12_rotaBlast.txt
+
++
