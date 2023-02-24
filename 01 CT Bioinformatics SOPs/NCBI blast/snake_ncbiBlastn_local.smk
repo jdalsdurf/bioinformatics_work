@@ -40,7 +40,6 @@ rule run_all:
 
     shell:
         """
-        blastn -db /media/nfs/bioinformatics/databases/blastdb/ref_viruses_rep_genomes -max_target_seqs 1 -outfmt '6' -query {input} -out {output.blastVirus}
-        blastn -db /media/nfs/bioinformatics/databases/blastdb/16S_ribosomal_RNA -max_target_seqs 1 -outfmt '6' -query {input} -out {output.blast16s}
-
+        blastn -db /media/nfs/bioinformatics/databases/blastdb/ref_viruses_rep_genomes -max_target_seqs 1 -outfmt '6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore sscinames scomnames' -query {input} -out {output.blastVirus}
+        blastn -db /media/nfs/bioinformatics/databases/blastdb/16S_ribosomal_RNA -max_target_seqs 1 -outfmt '6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore sscinames scomnames' -query {input} -out {output.blast16s}
         """

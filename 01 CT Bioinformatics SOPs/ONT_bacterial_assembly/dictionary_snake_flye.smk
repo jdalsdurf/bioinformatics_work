@@ -19,7 +19,7 @@ configfile: "config_flye.yaml"
 
 
 print("Starting Unicycler analysis workflow")
-
+""""
 rule all:
     input:
         expand("flyeOut/{sample}_flye", sample = config["samples"]),
@@ -32,5 +32,5 @@ rule flye:
     conda:
         "flye_env.yaml"
     shell:
-        "flye --nano-raw {input} --out-dir {output} --threads 40 --genome-size 1m"
-		
+        "flye --nano-raw {input} --out-dir {output} --threads 40 --genome-size 2.8m"
+		 """
