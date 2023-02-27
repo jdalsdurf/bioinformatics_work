@@ -44,7 +44,7 @@ rule unicycler_wrapper:
     params:
         extra="--threads 40 --mode bold"
     wrapper:
-        "v1.22.0/bio/unicycler"
+        "v1.23.4/bio/unicycler"
 
 # rule rename:
 # 	input:
