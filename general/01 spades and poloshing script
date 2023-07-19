@@ -1,0 +1,8 @@
+spades.py --careful -1 [sample]_R1.fastq.gz -2 [sample]_R2.fastq.gz -o spades_out_DIR
+### change dir to spades_out_DIR
+bwa index contigs.fasta
+bwa mem contigs.fasta [sample]_R1.fastq.gz -2 [sample]_R2.fastq.gz > alignments.sam
+samtools view -S -b alignments.sam > alignments.bam
+samtools sort alignments.bam > alignments.sorted.bam
+samtools index alignments.sorted.bam
+pilon --genome contigs.fasta --frags alignments.sorted.bam --output polished_assembly
